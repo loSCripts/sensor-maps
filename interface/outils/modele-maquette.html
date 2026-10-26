@@ -1,0 +1,856 @@
+<title>Sensor Maps Maquette</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&display=swap">
+<style>
+/* Maquette : l'écran du téléphone remplit la page sur mobile ; sur grand écran, un cadre de téléphone. */
+:root{
+  --fond:#f4f7fa; --surface:#ffffff; --surface-2:#e9eef4; --encre:#0e1b2a; --encre-2:#566477; --trait:#dce3ea;
+  --nuit:#163e6c; --miel:#f6b73c; --miel-doux:#fdf1d8; --sur-miel:#0e1b2a;
+  --action:#163e6c; --sur-action:#ffffff; --tonal:#dce7f5; --sur-tonal:#163e6c;
+  --logo-contour:#163e6c; --repos:#c5cfda; --corail:#b93a30;
+  --nav-fond:#ffffff; --indic:#dce7f5;
+  --marque-fond:#163e6c; --marque-encre:#ffffff; --marque-encre-2:#c9d8ec;
+  --carte-fond:#e7ecf1; --carte-eau:#c6daec; --carte-route:#fbfcfd; --carte-parc:#d6e6d3;
+  --zone-vide:#b9c4d0; --zone-gap:#e7ecf1;
+  --scene:#d7dee6; --cadre:#0b1117; --voile:rgba(8,18,29,.45);
+  --ombre:0 1px 2px rgba(14,27,42,.05), 0 6px 18px rgba(14,27,42,.06);
+  --bord:rgba(185,58,48,.20); --bord-encre:#7a231c;
+  --focus:#2f6fd0;
+  --texte:"Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  --h-etat:28px; --h-gestes:20px; --h-nav:72px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --fond:#08121d; --surface:#0f1d2c; --surface-2:#172739; --encre:#e8eff7; --encre-2:#9aa9ba; --trait:#223244;
+    --miel-doux:#30250e; --action:#9cc2f5; --sur-action:#0e1b2a; --tonal:#1d3550; --sur-tonal:#d6e6fb;
+    --logo-contour:#ffffff; --repos:#3b4b5d; --corail:#ff8a7e; --nav-fond:#0f1d2c; --indic:#1d3550;
+    --marque-fond:#12345b; --marque-encre-2:#b4c6de;
+    --carte-fond:#0c1824; --carte-eau:#123150; --carte-route:#1c2c3e; --carte-parc:#11261b;
+    --zone-vide:#33445a; --zone-gap:#0c1824;
+    --scene:#02060a; --cadre:#1a222c; --voile:rgba(0,0,0,.6); --ombre:none;
+    --bord:rgba(255,138,126,.22); --bord-encre:#ffd2cc; --focus:#8ab4ff;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --fond:#08121d; --surface:#0f1d2c; --surface-2:#172739; --encre:#e8eff7; --encre-2:#9aa9ba; --trait:#223244;
+  --miel-doux:#30250e; --action:#9cc2f5; --sur-action:#0e1b2a; --tonal:#1d3550; --sur-tonal:#d6e6fb;
+  --logo-contour:#ffffff; --repos:#3b4b5d; --corail:#ff8a7e; --nav-fond:#0f1d2c; --indic:#1d3550;
+  --marque-fond:#12345b; --marque-encre-2:#b4c6de;
+  --carte-fond:#0c1824; --carte-eau:#123150; --carte-route:#1c2c3e; --carte-parc:#11261b;
+  --zone-vide:#33445a; --zone-gap:#0c1824;
+  --scene:#02060a; --cadre:#1a222c; --voile:rgba(0,0,0,.6); --ombre:none;
+  --bord:rgba(255,138,126,.22); --bord-encre:#ffd2cc; --focus:#8ab4ff;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--scene);color:var(--encre);font:400 16px/1.45 var(--texte);-webkit-font-smoothing:antialiased;overflow:hidden}
+h1,h2,p,ul{margin:0}
+ul{padding:0;list-style:none}
+button{font:inherit;color:inherit}
+svg{display:block}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+.scene{height:100%;display:grid;place-items:center;padding-left:env(safe-area-inset-left, 0px);padding-right:env(safe-area-inset-right, 0px)}
+.tel{position:relative;width:100%;height:100%;overflow:hidden;background:var(--fond);isolation:isolate}
+@media (min-width:640px) and (min-height:760px){
+  .tel{width:412px;height:min(892px, calc(100% - 48px));border-radius:44px;box-shadow:0 0 0 10px var(--cadre), 0 30px 90px rgba(0,0,0,.35)}
+}
+
+/* Barre d'état simulée : l'appli s'affiche dessous (bord à bord, Android 15 et plus) */
+.etat{position:absolute;inset:0 0 auto;height:var(--h-etat);display:flex;align-items:center;justify-content:space-between;padding:0 16px 0 10px;z-index:40;color:var(--encre);pointer-events:none;transition:color .2s}
+.tel.fonce .etat{color:var(--marque-encre)}
+.badge{pointer-events:auto;display:inline-flex;align-items:center;gap:3px;height:22px;padding:0 6px 0 10px;border:0;border-radius:11px;background:var(--miel);color:var(--sur-miel);font:650 12px/1 var(--texte);letter-spacing:.01em;cursor:pointer}
+.badge svg{width:14px;height:14px}
+.etat-icones{display:flex;align-items:center;gap:7px;opacity:.85}
+.etat-icones svg{width:15px;height:15px}
+.gestes{position:absolute;left:50%;bottom:7px;width:108px;height:4px;margin-left:-54px;border-radius:2px;background:var(--encre);opacity:.35;z-index:41;pointer-events:none;transition:background .2s}
+.tel.fonce .gestes{background:var(--marque-encre);opacity:.6}
+
+/* Écrans */
+.ecran{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--fond);opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .22s ease, transform .22s ease, visibility 0s linear .22s}
+.ecran.actif{opacity:1;visibility:visible;transform:none;transition:opacity .22s ease, transform .22s ease, visibility 0s}
+.barre{flex:none;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:60px;padding:calc(var(--h-etat) + 6px) 8px 6px 16px}
+.barre.grande{padding:calc(var(--h-etat) + 18px) 20px 12px}
+.barre.simple{justify-content:flex-start;padding-left:4px}
+.defile{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:4px 16px calc(var(--h-nav) + var(--h-gestes) + 28px);display:flex;flex-direction:column;gap:14px;scrollbar-width:none}
+.defile::-webkit-scrollbar{display:none}
+.sans-nav .defile{padding-bottom:calc(var(--h-gestes) + 28px)}
+
+/* Texte */
+.t-grand{font-size:30px;line-height:1.08;font-weight:650;font-stretch:90%;letter-spacing:-.02em;text-wrap:balance}
+.t-titre{font-size:19px;line-height:1.25;font-weight:600;letter-spacing:-.005em}
+.t-petit{font-size:13.5px;line-height:1.35;color:var(--encre-2)}
+.t-etiq{font-size:12px;line-height:1;font-weight:650;letter-spacing:.08em;text-transform:uppercase;color:var(--encre-2);margin:8px 4px -2px}
+.centre{text-align:center}
+
+/* Boutons et éléments */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border:0;border-radius:24px;font:600 16px/1 var(--texte);cursor:pointer;text-decoration:none;white-space:nowrap;transition:transform .12s ease, background-color .2s ease, opacity .2s}
+.btn:active{transform:scale(.97)}
+.btn svg{width:20px;height:20px;flex:none}
+.btn.plein{background:var(--action);color:var(--sur-action)}
+.btn.tonal{background:var(--tonal);color:var(--sur-tonal)}
+.btn.miel{background:var(--miel);color:var(--sur-miel)}
+.btn.contour{background:transparent;color:var(--action);box-shadow:inset 0 0 0 1.5px var(--trait)}
+.btn.texte{background:transparent;color:var(--action);padding:0 14px}
+.btn.large{width:100%}
+.btn.petit{min-height:40px;padding:0 16px;font-size:15px}
+.btn-ico{flex:none;width:48px;height:48px;border:0;border-radius:50%;background:transparent;color:var(--encre);display:grid;place-items:center;cursor:pointer}
+.btn-ico svg{width:24px;height:24px}
+.carte{background:var(--surface);border-radius:24px;padding:18px;box-shadow:var(--ombre)}
+.pastille{flex:none;width:40px;height:40px;border-radius:50%;background:var(--surface-2);color:var(--encre);display:grid;place-items:center}
+.pastille svg{width:22px;height:22px}
+.pastille.miel{background:var(--miel);color:var(--sur-miel)}
+.segment{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:24px;background:var(--surface-2)}
+.segment button{min-height:40px;border:0;border-radius:20px;background:transparent;color:var(--encre-2);font-weight:600;font-size:15px;cursor:pointer;transition:background-color .2s, color .2s}
+.segment button[aria-pressed="true"]{background:var(--surface);color:var(--encre);box-shadow:var(--ombre)}
+.interrupteur{appearance:none;-webkit-appearance:none;flex:none;position:relative;width:52px;height:32px;margin:0;border-radius:16px;background:var(--surface-2);box-shadow:inset 0 0 0 2px var(--repos);cursor:pointer;transition:background-color .2s, box-shadow .2s}
+.interrupteur::after{content:"";position:absolute;top:8px;left:8px;width:16px;height:16px;border-radius:50%;background:var(--encre-2);transition:transform .2s, width .2s, height .2s, top .2s, left .2s, background-color .2s}
+.interrupteur:checked{background:var(--action);box-shadow:none}
+.interrupteur:checked::after{top:4px;left:4px;width:24px;height:24px;background:var(--sur-action);transform:translateX(20px)}
+
+/* Marque (démarrage, bienvenue) */
+.ecran.marque{background:var(--marque-fond);color:var(--marque-encre)}
+.logo-2t{color:var(--logo-contour);fill:var(--miel)}
+.ecran.marque .logo-2t{color:var(--marque-encre)}
+.demarrage{flex:1;display:grid;place-items:center}
+.demarrage svg{width:112px;height:112px}
+.intro{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:calc(var(--h-etat) + 24px) 28px 8px}
+.intro svg{width:96px;height:96px;margin-bottom:10px}
+.intro-nom{font-size:17px;font-weight:650;letter-spacing:-.01em;color:var(--marque-encre-2)}
+.intro-titre{font-size:40px;line-height:1.02;font-weight:650;font-stretch:88%;letter-spacing:-.025em;text-wrap:balance}
+.intro-texte{font-size:18px;line-height:1.45;color:var(--marque-encre-2);max-width:26ch}
+.pied{flex:none;display:grid;gap:18px;padding:12px 24px calc(var(--h-gestes) + 22px)}
+.pages{display:flex;justify-content:center;gap:8px}
+.pages i{width:8px;height:8px;border-radius:4px;background:currentColor;opacity:.25;transition:width .25s, opacity .25s}
+.pages i.on{width:22px;opacity:.9}
+.etapes{padding:4px 24px 0;display:flex;flex-direction:column;gap:22px;flex:1;min-height:0;overflow-y:auto}
+.etapes .t-grand{margin-top:4px}
+.promesses{display:grid;gap:18px}
+.promesses li,.autorisations li{display:flex;align-items:flex-start;gap:14px}
+.promesses b,.autorisations b{display:block;font-weight:600;font-size:16.5px;line-height:1.3}
+.autorisations{display:grid;gap:14px}
+.autorisations li{align-items:center;padding:14px;border-radius:20px;background:var(--surface);box-shadow:var(--ombre)}
+.autorisations .a-texte{flex:1;min-width:0}
+.autorise{color:var(--encre-2);font-weight:600;font-size:15px;display:inline-flex;align-items:center;gap:6px;padding:0 6px}
+.autorise svg{width:18px;height:18px}
+
+/* Accueil */
+.marque-mini{display:inline-flex;align-items:center;gap:10px;font-weight:650;font-size:18px;letter-spacing:-.01em}
+.marque-mini svg{width:28px;height:28px}
+.etat-carte{display:grid;justify-items:center;text-align:center;gap:4px;padding:22px 18px 20px}
+.hex-etat{width:104px;height:104px;margin-bottom:10px;color:var(--logo-contour);fill:var(--miel);transition:fill .4s}
+.hex-etat.repos{fill:var(--repos)}
+.etat-carte .btn{margin-top:14px}
+.jour{display:grid;gap:18px}
+.chiffres{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.chiffres div{display:grid;gap:2px}
+.t-valeur{font-size:26px;line-height:1.1;font-weight:650;letter-spacing:-.015em}
+.budget{display:grid;gap:8px}
+.budget-tete{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.budget-tete .t-petit{display:inline-flex;align-items:center;gap:6px}
+.budget-tete svg{width:18px;height:18px}
+.budget-tete b{color:var(--encre);font-weight:650}
+.jauge{height:8px;border-radius:4px;background:var(--tonal);overflow:hidden}
+.jauge i{display:block;height:100%;border-radius:4px;background:var(--action);transition:width .4s ease}
+.ta-zone{display:flex;align-items:center;gap:14px;width:100%;border:0;text-align:left;cursor:pointer;color:inherit;font:inherit}
+.ta-zone .tz-texte{flex:1;min-width:0;display:grid;gap:2px}
+.ta-zone b{font-weight:600;font-size:16.5px}
+.ta-zone .chev{width:22px;height:22px;color:var(--encre-2)}
+.mini-carte{flex:none;width:64px;height:58px}
+.mc{fill:var(--surface-2);stroke:var(--surface);stroke-width:1.5}
+.mc-toi{fill:var(--miel);stroke:var(--logo-contour);stroke-width:2.2}
+.contribution{display:grid;gap:10px;background:var(--miel-doux);box-shadow:none}
+.ct-tete{display:flex;align-items:center;gap:12px}
+.ct-actions{display:flex;justify-content:flex-end;gap:6px;margin-top:2px}
+
+/* Capteurs */
+.liste{padding:4px 0}
+.capteur{display:grid;grid-template-columns:40px minmax(0,1fr) auto auto;align-items:center;gap:12px;padding:12px 16px;min-height:72px}
+.capteur + .capteur{border-top:1px solid var(--trait)}
+.c-nom{display:grid;gap:1px;min-width:0}
+.c-nom b{font-weight:600;font-size:16px;line-height:1.3}
+.c-val{display:flex;align-items:baseline;gap:4px;justify-content:flex-end;min-width:64px;font-variant-numeric:tabular-nums}
+.c-val b{font-size:22px;font-weight:650;letter-spacing:-.01em;transition:opacity .2s}
+.c-val span{font-size:13px;color:var(--encre-2)}
+.points{width:52px;height:28px}
+.points circle{fill:var(--repos)}
+.points circle.der{fill:var(--action);stroke:var(--surface);stroke-width:2}
+.capteur.absent{grid-template-columns:40px minmax(0,1fr)}
+.capteur.absent .pastille{opacity:.55}
+.capteur.absent b{color:var(--encre-2)}
+.change b{opacity:0}
+
+/* Carte */
+.puces{display:flex;gap:8px;overflow-x:auto;margin:0 -16px;padding:2px 16px 4px;scrollbar-width:none}
+.puces::-webkit-scrollbar{display:none}
+.puce{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px 0 10px;border:0;border-radius:20px;background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--trait);color:var(--encre);font-weight:600;font-size:14.5px;cursor:pointer}
+.puce svg{width:18px;height:18px}
+.puce[aria-checked="true"]{background:var(--action);color:var(--sur-action);box-shadow:none}
+.carte-cadre{position:relative;border-radius:24px;overflow:hidden;background:var(--carte-fond);aspect-ratio:36/33;max-width:100%}
+.carte-cadre svg{width:100%;height:100%}
+.hx{stroke:var(--zone-gap);stroke-width:1.6;cursor:pointer;transition:opacity .2s}
+.hx.vide{fill:transparent;stroke:var(--zone-vide);stroke-width:1}
+.hx-toi{fill:none;stroke:var(--encre);stroke-width:2.6;pointer-events:none}
+.toi-etiq{pointer-events:none}
+.toi-etiq rect{fill:var(--encre)}
+.toi-etiq text{fill:var(--fond);font:650 11px var(--texte)}
+.bulle{position:absolute;transform:translate(-50%, calc(-100% - 10px));padding:7px 10px;border-radius:12px;background:var(--surface);box-shadow:0 4px 16px rgba(0,0,0,.18);font-size:13px;line-height:1.25;white-space:nowrap;pointer-events:none}
+.bulle b{display:block;font-size:16px;font-weight:650}
+.legende{display:grid;gap:10px;padding:0 4px}
+.leg-degrade{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;font-size:13px;color:var(--encre-2);font-variant-numeric:tabular-nums}
+.leg-degrade i{height:10px;border-radius:5px}
+.leg-vide{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--encre-2)}
+.leg-vide svg{width:18px;height:18px;flex:none}
+
+/* Soutenir */
+.don{display:grid;gap:12px;justify-items:center;text-align:center;padding:24px 18px 20px}
+.don .hex-don{width:64px;height:64px;color:var(--logo-contour);fill:var(--miel);margin-bottom:4px}
+.don .segment{width:100%;margin-top:6px}
+.montants{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%}
+.montants button{min-height:48px;border:0;border-radius:16px;background:var(--surface-2);font-weight:650;font-size:16px;cursor:pointer;color:var(--encre)}
+.montants button[aria-checked="true"]{background:var(--tonal);color:var(--sur-tonal);box-shadow:inset 0 0 0 2px var(--action)}
+.partage{display:grid;grid-template-columns:40px 1fr;gap:12px 14px;align-items:center}
+.partage .btn{grid-column:1 / -1}
+.libre{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--encre-2)}
+.libre span{display:inline-flex;align-items:center;gap:6px}
+.libre svg{width:16px;height:16px}
+
+/* Réglages */
+.groupe{padding:4px 0}
+.reglage{display:flex;align-items:center;gap:14px;min-height:64px;padding:10px 16px;width:100%;border:0;background:transparent;text-align:left;color:inherit;text-decoration:none;cursor:pointer;font:inherit}
+.groupe > * + *{border-top:1px solid var(--trait)}
+.reglage .r-texte{flex:1;min-width:0;display:grid;gap:1px}
+.reglage b{font-weight:600;font-size:16px;line-height:1.3}
+.reglage > svg{width:22px;height:22px;flex:none;color:var(--encre-2)}
+.reglage.danger b{color:var(--corail)}
+.reglage.danger > svg{color:var(--corail)}
+.bloc-budget{display:grid;gap:12px;padding:16px}
+.bloc-budget .r-texte{display:grid;gap:1px}
+.bloc-budget b{font-weight:600;font-size:16px;line-height:1.3}
+.nobr{white-space:nowrap}
+.info-pause{display:flex;gap:10px;align-items:flex-start}
+.info-pause svg{width:18px;height:18px;flex:none;margin-top:1px;color:var(--encre-2)}
+
+/* Navigation du bas */
+.nav{position:absolute;inset:auto 0 0;z-index:30;display:grid;grid-template-columns:repeat(4,1fr);padding:6px 4px calc(var(--h-gestes) + 4px);background:var(--nav-fond);border-top:1px solid var(--trait);transition:transform .25s ease}
+.nav.cachee{transform:translateY(105%)}
+.nav button{display:grid;justify-items:center;gap:4px;padding:6px 0 4px;border:0;background:none;color:var(--encre-2);font:500 12px/1.1 var(--texte);cursor:pointer}
+.nav .indic{width:60px;height:32px;border-radius:16px;display:grid;place-items:center;transition:background-color .2s}
+.nav svg{width:24px;height:24px}
+.nav button[aria-current="page"]{color:var(--encre);font-weight:650}
+.nav button[aria-current="page"] .indic{background:var(--indic);color:var(--sur-tonal)}
+
+/* Feuille Maquette, message, bords */
+.voile{position:absolute;inset:0;z-index:50;background:var(--voile)}
+.feuille{position:absolute;inset:auto 0 0;z-index:51;max-height:86%;overflow-y:auto;padding:10px 16px calc(var(--h-gestes) + 18px);border-radius:28px 28px 0 0;background:var(--surface);display:flex;flex-direction:column;gap:12px;scrollbar-width:none}
+.feuille::-webkit-scrollbar{display:none}
+.poignee{width:36px;height:4px;border-radius:2px;background:var(--repos);margin:2px auto 0}
+.f-tete{display:flex;align-items:center;justify-content:space-between}
+.f-liste{display:flex;flex-wrap:wrap;gap:8px}
+.f-liste button{min-height:40px;padding:0 14px;border:0;border-radius:20px;background:var(--surface-2);color:var(--encre);font-weight:600;font-size:14.5px;cursor:pointer}
+.f-liste button[aria-current="true"]{background:var(--action);color:var(--sur-action)}
+.feuille .reglage{padding:6px 2px;min-height:52px}
+.toast{position:absolute;left:50%;bottom:calc(var(--h-nav) + var(--h-gestes) + 18px);z-index:45;transform:translateX(-50%);max-width:calc(100% - 32px);padding:12px 16px;border-radius:14px;background:var(--encre);color:var(--fond);font-size:14.5px;font-weight:500;line-height:1.3;box-shadow:0 6px 24px rgba(0,0,0,.25);text-align:center;animation:monte-toast .25s ease}
+.tel.sans-nav-actif .toast{bottom:calc(var(--h-gestes) + 96px)}
+@keyframes monte-toast{from{opacity:0;transform:translate(-50%, 10px)}}
+.bords{position:absolute;inset:0;z-index:44;pointer-events:none}
+.bords div{position:absolute;left:0;right:0;background:var(--bord);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:650;color:var(--bord-encre);letter-spacing:.04em}
+.b-haut{top:0;height:var(--h-etat)}
+.b-bas{bottom:0;height:var(--h-gestes)}
+
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2.5px solid var(--focus);outline-offset:2px}
+
+/* Mouvement du logo */
+.o-cercle{opacity:0}
+@media (prefers-reduced-motion: no-preference){
+  .joue .z-contour{animation:trace 1s cubic-bezier(.6,0,.3,1) backwards}
+  .joue .z-niveau{animation:monte 1.5s .45s both}
+  .joue .z-vague, .vit .z-vague{animation:glisse 4.8s linear infinite}
+}
+@media (prefers-reduced-motion: reduce){
+  .ecran,.ecran.actif,.nav{transition:none}
+}
+@keyframes trace{from{stroke-dasharray:1;stroke-dashoffset:1}to{stroke-dasharray:1;stroke-dashoffset:0}}
+@keyframes monte{
+  0%{transform:translateY(42px)}
+  14%,20%{transform:translateY(33px)}
+  34%,40%{transform:translateY(25px)}
+  54%,60%{transform:translateY(17px)}
+  74%,80%{transform:translateY(9px)}
+  100%{transform:translateY(0)}
+}
+@keyframes glisse{to{transform:translateX(-62px)}}
+</style>
+
+<svg class="sprite" aria-hidden="true" focusable="false"><defs>{{ICONES}}
+  <symbol id="i-etat-signal" viewBox="0 0 16 16"><path fill="currentColor" d="M2 13h2v-2H2zM6 13h2V8H6zM10 13h2V5h-2zM14 13h1.5V2H14z"/></symbol>
+  <symbol id="i-etat-wifi" viewBox="0 0 16 16"><path fill="currentColor" d="M8 13.2l2.1-2.6a3.4 3.4 0 0 0-4.2 0zM3.7 8.1l1.1 1.4a5 5 0 0 1 6.4 0l1.1-1.4a6.8 6.8 0 0 0-8.6 0zM1.4 5.3l1.1 1.4a8.6 8.6 0 0 1 11 0l1.1-1.4a10.4 10.4 0 0 0-13.2 0z"/></symbol>
+  <symbol id="i-etat-batterie" viewBox="0 0 16 16"><path fill="currentColor" d="M5.5 2h5v1.2H12a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4.2a1 1 0 0 1 1-1h1.5z" opacity=".35"/><path fill="currentColor" d="M3 8h10v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-vide" viewBox="0 0 24 24"><path d="M12 3.6l7.3 4.2v8.4L12 20.4l-7.3-4.2V7.8z" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+</defs></svg>
+
+<div class="scene">
+<div class="tel" id="tel">
+
+  <div class="etat" aria-label="Barre d’état du téléphone, simulée">
+    <button class="badge" id="b-maquette" aria-haspopup="dialog" aria-controls="feuille">Maquette<svg aria-hidden="true"><use href="#i-bas"/></svg></button>
+    <span class="etat-icones" aria-hidden="true"><svg><use href="#i-etat-signal"/></svg><svg><use href="#i-etat-wifi"/></svg><svg><use href="#i-etat-batterie"/></svg></span>
+  </div>
+
+  <!-- Démarrage -->
+  <section class="ecran marque sans-nav" id="demarrage" aria-label="Démarrage">
+    <div class="demarrage"><svg class="logo-2t" id="logo-demarrage" viewBox="0 0 96 96" aria-label="Sensor Maps" role="img">{{LOGO_DEMARRAGE}}</svg></div>
+  </section>
+
+  <!-- Premier lancement : 1 -->
+  <section class="ecran marque sans-nav" id="bienvenue" aria-label="Bienvenue">
+    <div class="intro">
+      <svg class="logo-2t" id="logo-intro" viewBox="0 0 96 96" aria-hidden="true">{{LOGO_INTRO}}</svg>
+      <p class="intro-nom">Sensor Maps</p>
+      <h1 class="intro-titre">La carte de ce qu’on ne voit pas.</h1>
+      <p class="intro-texte">Ton téléphone mesure quelques secondes, au bon moment.</p>
+    </div>
+    <div class="pied">
+      <div class="pages" role="img" aria-label="Étape 1 sur 3"><i class="on"></i><i></i><i></i></div>
+      <button class="btn miel large" data-aller="promesse">Commencer</button>
+    </div>
+  </section>
+
+  <!-- Premier lancement : 2 -->
+  <section class="ecran sans-nav" id="promesse" aria-label="La promesse">
+    <header class="barre simple"><button class="btn-ico" data-aller="bienvenue" aria-label="Retour"><svg><use href="#i-retour"/></svg></button></header>
+    <div class="etapes">
+      <h1 class="t-grand">Toi, tu restes invisible</h1>
+      <ul class="promesses">
+        <li><span class="pastille"><svg><use href="#i-zone-point"/></svg></span><span><b>Une zone et une valeur</b><span class="t-petit">Jamais ton trajet.</span></span></li>
+        <li><span class="pastille"><svg><use href="#i-personne-barre"/></svg></span><span><b>Ni nom, ni compte</b><span class="t-petit">Personne ne sait qui mesure.</span></span></li>
+        <li><span class="pastille"><svg><use href="#i-cinq"/></svg></span><span><b>Cinq téléphones au moins</b><span class="t-petit">Avant qu’une zone s’affiche sur la carte.</span></span></li>
+        <li><span class="pastille"><svg><use href="#i-micro-barre"/></svg></span><span><b>Aucun son gardé</b><span class="t-petit">Le bruit est calculé sur le téléphone.</span></span></li>
+      </ul>
+    </div>
+    <div class="pied">
+      <div class="pages" role="img" aria-label="Étape 2 sur 3"><i></i><i class="on"></i><i></i></div>
+      <button class="btn plein large" data-aller="autorisations">D’accord</button>
+    </div>
+  </section>
+
+  <!-- Premier lancement : 3 -->
+  <section class="ecran sans-nav" id="autorisations" aria-label="Autorisations">
+    <header class="barre simple"><button class="btn-ico" data-aller="promesse" aria-label="Retour"><svg><use href="#i-retour"/></svg></button></header>
+    <div class="etapes">
+      <h1 class="t-grand">Trois autorisations</h1>
+      <ul class="autorisations">
+        <li><span class="pastille"><svg><use href="#i-pose"/></svg></span><span class="a-texte"><b>Activité physique</b><span class="t-petit">Pour mesurer quand le téléphone est posé.</span></span><button class="btn tonal petit" data-autoriser>Autoriser</button></li>
+        <li><span class="pastille"><svg><use href="#i-cloche"/></svg></span><span class="a-texte"><b>Notifications</b><span class="t-petit">Pour l’état de l’appli, et de rares petites contributions.</span></span><button class="btn tonal petit" data-autoriser>Autoriser</button></li>
+        <li><span class="pastille"><svg><use href="#i-zone-point"/></svg></span><span class="a-texte"><b>Position approximative</b><span class="t-petit">Pour connaître ta zone. Jamais ton adresse.</span></span><button class="btn tonal petit" data-autoriser>Autoriser</button></li>
+      </ul>
+    </div>
+    <div class="pied">
+      <div class="pages" role="img" aria-label="Étape 3 sur 3"><i></i><i></i><i class="on"></i></div>
+      <button class="btn plein large" data-aller="accueil">Terminer</button>
+    </div>
+  </section>
+
+  <!-- Accueil -->
+  <section class="ecran" id="accueil" aria-label="Accueil">
+    <header class="barre">
+      <span class="marque-mini"><svg class="logo-2t" viewBox="0 0 96 96" aria-hidden="true">{{LOGO_BARRE}}</svg>Sensor Maps</span>
+      <button class="btn-ico" data-aller="reglages" aria-label="Réglages"><svg><use href="#i-reglages"/></svg></button>
+    </header>
+    <div class="defile">
+      <div class="carte contribution" id="contribution" hidden>
+        <div class="ct-tete"><span class="pastille miel"><svg><use href="#i-pluie"/></svg></span><p class="t-titre">Il pleut près de chez toi</p></div>
+        <p class="t-petit">Pose ton téléphone dehors, à l’abri, une minute&#8239;?</p>
+        <div class="ct-actions"><button class="btn texte petit" data-contrib="non">Plus tard</button><button class="btn miel petit" data-contrib="oui">J’y vais</button></div>
+      </div>
+      <div class="carte etat-carte">
+        <svg class="hex-etat vit" id="hex-etat" viewBox="0 0 96 96" aria-hidden="true">{{ZONE_ETAT}}</svg>
+        <p class="t-titre" id="etat-titre">En marche</p>
+        <p class="t-petit" id="etat-sous">Mesure quand le téléphone est posé</p>
+        <button class="btn tonal" id="b-pause"><svg><use href="#i-pause"/></svg><span>Pause</span></button>
+      </div>
+      <h2 class="t-etiq">Aujourd’hui</h2>
+      <div class="carte jour">
+        <div class="chiffres">
+          <div><b class="t-valeur">12</b><span class="t-petit">mesures</span></div>
+          <div><b class="t-valeur">3</b><span class="t-petit">zones</span></div>
+          <div><b class="t-valeur">8 min</b><span class="t-petit">dernière mesure</span></div>
+        </div>
+        <div class="budget">
+          <div class="budget-tete"><span class="t-petit"><svg aria-hidden="true"><use href="#i-batterie"/></svg>Batterie</span><span class="t-petit"><b>0,4&nbsp;%</b> sur <span id="budget-txt">1&nbsp;%</span></span></div>
+          <div class="jauge" role="meter" aria-label="Batterie utilisée aujourd’hui" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40"><i id="jauge" style="width:40%"></i></div>
+        </div>
+      </div>
+      <button class="carte ta-zone" data-aller="carte">
+        <svg class="mini-carte" viewBox="0 0 80 72" aria-hidden="true">{{MINI_CARTE}}</svg>
+        <span class="tz-texte"><b>Ta zone est sur la carte</b><span class="t-petit">Assez de téléphones y ont mesuré</span></span>
+        <svg class="chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- Mes capteurs -->
+  <section class="ecran" id="capteurs" aria-label="Mes capteurs">
+    <header class="barre grande"><h1 class="t-grand">Mes capteurs</h1></header>
+    <div class="defile">
+      <div class="segment" role="group" aria-label="Valeurs">
+        <button aria-pressed="false" data-valeurs="brut">Brut</button>
+        <button aria-pressed="true" data-valeurs="corrige">Corrigé</button>
+      </div>
+      <p class="t-petit centre" id="note-valeurs">Corrigé pour ton modèle de téléphone</p>
+      <ul class="carte liste" id="liste-capteurs"></ul>
+      <p class="t-petit centre">Chaque point, une mesure de quelques secondes.</p>
+    </div>
+  </section>
+
+  <!-- Carte -->
+  <section class="ecran" id="carte" aria-label="Carte">
+    <header class="barre grande"><h1 class="t-grand">Carte</h1></header>
+    <div class="defile">
+      <div class="puces" role="radiogroup" aria-label="Mesure affichée" id="puces"></div>
+      <div class="carte-cadre" id="carte-cadre">
+        <svg id="carte-svg" viewBox="0 0 360 330" role="img" aria-label="Aperçu de la carte autour de ta zone"></svg>
+        <div class="bulle" id="bulle" hidden></div>
+      </div>
+      <div class="legende">
+        <div class="leg-degrade"><span id="leg-min"></span><i id="leg-barre"></i><span id="leg-max"></span></div>
+        <div class="leg-vide"><svg aria-hidden="true" style="color:var(--zone-vide)"><use href="#i-vide"/></svg><span>Moins de 5 téléphones&nbsp;: la zone reste vide</span></div>
+      </div>
+      <a class="btn contour large" href="https://loscripts.github.io/sensor-maps/" target="_blank" rel="noopener">Ouvrir la carte complète<svg aria-hidden="true"><use href="#i-externe"/></svg></a>
+    </div>
+  </section>
+
+  <!-- Soutenir -->
+  <section class="ecran" id="soutenir" aria-label="Soutenir">
+    <header class="barre grande"><h1 class="t-grand">Soutenir</h1></header>
+    <div class="defile">
+      <div class="carte don">
+        <svg class="hex-don" viewBox="0 0 96 96" aria-hidden="true">{{LOGO_DON}}</svg>
+        <p class="t-titre">Gratuit, sans pub, sans traceur.</p>
+        <p class="t-petit">Un don aide la carte à vivre.</p>
+        <div class="segment" role="group" aria-label="Fréquence">
+          <button aria-pressed="true" data-freq="une">Une fois</button>
+          <button aria-pressed="false" data-freq="mois">Chaque mois</button>
+        </div>
+        <div class="montants" role="radiogroup" aria-label="Montant">
+          <button role="radio" aria-checked="false" data-montant="2">2&nbsp;€</button>
+          <button role="radio" aria-checked="true" data-montant="5">5&nbsp;€</button>
+          <button role="radio" aria-checked="false" data-montant="10">10&nbsp;€</button>
+          <button role="radio" aria-checked="false" data-montant="autre">Autre</button>
+        </div>
+        <button class="btn miel large" id="b-don">Donner 5&nbsp;€</button>
+      </div>
+      <div class="carte partage">
+        <span class="pastille"><svg><use href="#i-partager"/></svg></span>
+        <span><p class="t-titre">Partager l’appli</p><p class="t-petit">Plus on est nombreux, plus la carte se remplit.</p></span>
+        <button class="btn contour" id="b-partage"><svg aria-hidden="true"><use href="#i-partager"/></svg>Partager</button>
+      </div>
+      <p class="libre"><span><svg aria-hidden="true"><use href="#i-bouclier"/></svg>Aucun traceur</span><span><svg aria-hidden="true"><use href="#i-carte"/></svg>Données ouvertes</span></p>
+    </div>
+  </section>
+
+  <!-- Réglages -->
+  <section class="ecran sans-nav" id="reglages" aria-label="Réglages">
+    <header class="barre simple"><button class="btn-ico" data-aller="accueil" aria-label="Retour"><svg><use href="#i-retour"/></svg></button><h1 class="t-titre">Réglages</h1></header>
+    <div class="defile">
+      <h2 class="t-etiq">Batterie</h2>
+      <div class="carte bloc-budget">
+        <div class="r-texte"><b>Budget par jour</b><span class="t-petit">L’appli ne dépense jamais plus.</span></div>
+        <div class="segment" role="group" aria-label="Budget de batterie par jour">
+          <button aria-pressed="false" data-budget="0.5">0,5&nbsp;%</button>
+          <button aria-pressed="true" data-budget="1">1&nbsp;%</button>
+          <button aria-pressed="false" data-budget="2">2&nbsp;%</button>
+        </div>
+        <p class="info-pause t-petit"><svg aria-hidden="true"><use href="#i-info"/></svg><span>Pause toute seule sous 30&nbsp;% de batterie, en économie d’énergie, si le téléphone chauffe ou si le budget du jour est dépensé.</span></p>
+      </div>
+      <h2 class="t-etiq">Mesures</h2>
+      <div class="carte groupe">
+        <label class="reglage" for="r-pause"><span class="r-texte"><b>Pause</b><span class="t-petit">Arrête toutes les mesures</span></span><input class="interrupteur" type="checkbox" role="switch" id="r-pause"></label>
+        <label class="reglage" for="r-nuit"><span class="r-texte"><b>Mode nuit</b><span class="t-petit">Pendant la charge, téléphone posé</span></span><input class="interrupteur" type="checkbox" role="switch" id="r-nuit"></label>
+        <label class="reglage" for="r-contrib"><span class="r-texte"><b>Petites contributions</b><span class="t-petit">Rares, seulement si tu veux</span></span><input class="interrupteur" type="checkbox" role="switch" id="r-contrib" checked></label>
+      </div>
+      <h2 class="t-etiq">Vie privée</h2>
+      <div class="carte groupe">
+        <div class="reglage"><svg aria-hidden="true"><use href="#i-zone-point"/></svg><span class="r-texte"><b>Ce qui part</b><span class="t-petit">Une zone et une valeur, par petits paquets, sur <span class="nobr">Wi-Fi</span></span></span></div>
+        <div class="reglage"><svg aria-hidden="true"><use href="#i-bouclier"/></svg><span class="r-texte"><b>Ce qui ne part jamais</b><span class="t-petit">Ton trajet, qui tu es, aucun son</span></span></div>
+        <a class="reglage" href="https://loscripts.github.io/sensor-maps/sources.html" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-carte"/></svg><span class="r-texte"><b>Données ouvertes</b><span class="t-petit">D’où viennent les données de la carte</span></span><svg aria-hidden="true"><use href="#i-externe"/></svg></a>
+        <button class="reglage danger" data-toast="Maquette : rien à effacer."><svg aria-hidden="true"><use href="#i-effacer"/></svg><span class="r-texte"><b>Effacer mes mesures du téléphone</b></span></button>
+      </div>
+      <h2 class="t-etiq">À propos</h2>
+      <div class="carte groupe">
+        <button class="reglage" data-aller="bienvenue"><svg aria-hidden="true"><use href="#i-rejouer"/></svg><span class="r-texte"><b>Revoir la présentation</b></span></button>
+        <div class="reglage"><svg aria-hidden="true"><use href="#i-telephone"/></svg><span class="r-texte"><b>Version</b><span class="t-petit">Maquette, rien n’est mesuré</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="nav cachee" id="nav" aria-label="Navigation">
+    <button data-aller="accueil"><span class="indic"><svg><use href="#i-accueil"/></svg></span>Accueil</button>
+    <button data-aller="capteurs"><span class="indic"><svg><use href="#i-capteurs"/></svg></span>Capteurs</button>
+    <button data-aller="carte"><span class="indic"><svg><use href="#i-carte"/></svg></span>Carte</button>
+    <button data-aller="soutenir"><span class="indic"><svg><use href="#i-soutenir"/></svg></span>Soutenir</button>
+  </nav>
+
+  <div class="gestes" aria-hidden="true"></div>
+  <div class="bords" id="bords" hidden aria-hidden="true"><div class="b-haut">BARRE D’ÉTAT</div><div class="b-bas">BARRE DE GESTES</div></div>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <div class="voile" id="voile" hidden></div>
+  <div class="feuille" id="feuille" role="dialog" aria-modal="true" aria-labelledby="f-titre" hidden>
+    <div class="poignee"></div>
+    <div class="f-tete"><p class="t-titre" id="f-titre">Maquette</p><button class="btn-ico" id="f-fermer" aria-label="Fermer"><svg><use href="#i-fermer"/></svg></button></div>
+    <p class="t-petit">Valeurs simulées. Rien n’est mesuré ni envoyé.</p>
+    <p class="t-etiq">Premier lancement</p>
+    <div class="f-liste">
+      <button data-aller="demarrage">Démarrage</button><button data-aller="bienvenue">Bienvenue</button><button data-aller="promesse">Promesse</button><button data-aller="autorisations">Autorisations</button>
+    </div>
+    <p class="t-etiq">Écrans</p>
+    <div class="f-liste">
+      <button data-aller="accueil">Accueil</button><button data-aller="capteurs">Capteurs</button><button data-aller="carte">Carte</button><button data-aller="soutenir">Soutenir</button><button data-aller="reglages">Réglages</button>
+    </div>
+    <p class="t-etiq">Accueil</p>
+    <div class="f-liste" id="f-etats">
+      <button data-etat="marche">En marche</button><button data-etat="pause">En pause</button><button data-etat="auto">Pause automatique</button><button data-etat="contrib">Petite contribution</button>
+    </div>
+    <p class="t-etiq">Affichage</p>
+    <div class="segment" role="group" aria-label="Thème">
+      <button aria-pressed="true" data-theme-choix="auto">Auto</button><button aria-pressed="false" data-theme-choix="light">Clair</button><button aria-pressed="false" data-theme-choix="dark">Sombre</button>
+    </div>
+    <label class="reglage" for="f-bords"><span class="r-texte"><b>Voir les bords d’Android</b><span class="t-petit">L’appli s’affiche sous ces deux barres</span></span><input class="interrupteur" type="checkbox" role="switch" id="f-bords"></label>
+  </div>
+
+</div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var tel = $('#tel');
+  var NB = ' ';
+
+  var etat = { ecran: null, pause: false, auto: false, valeurs: 'corrige', couche: 'bruit', budget: 1, montant: 5, freq: 'une' };
+  var FONCES = ['demarrage', 'bienvenue'];
+  var AVEC_NAV = ['accueil', 'capteurs', 'carte', 'soutenir'];
+
+  /* ---------- Navigation ---------- */
+  var minuteurDemarrage = null;
+  function aller(id) {
+    if (!document.getElementById(id) || id === etat.ecran) { fermerFeuille(); return; }
+    clearTimeout(minuteurDemarrage);
+    $$('.ecran').forEach(function (e) { e.classList.toggle('actif', e.id === id); });
+    etat.ecran = id;
+    tel.classList.toggle('fonce', FONCES.indexOf(id) >= 0);
+    tel.classList.toggle('sans-nav-actif', AVEC_NAV.indexOf(id) < 0);
+    $('#nav').classList.toggle('cachee', AVEC_NAV.indexOf(id) < 0);
+    $$('#nav button').forEach(function (b) {
+      if (b.dataset.aller === id) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+    });
+    $$('.feuille [data-aller]').forEach(function (b) { b.setAttribute('aria-current', b.dataset.aller === id ? 'true' : 'false'); });
+    var ecran = document.getElementById(id);
+    var d = $('.defile', ecran); if (d) d.scrollTop = 0;
+    rejouer($('svg.logo-2t[id]', ecran));
+    if (id === 'demarrage') minuteurDemarrage = setTimeout(function () { aller('bienvenue'); }, 2100);
+    fermerFeuille();
+  }
+  function rejouer(svg) {
+    if (!svg) return;
+    svg.classList.remove('joue'); void svg.getBoundingClientRect(); svg.classList.add('joue');
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-aller]');
+    if (a) { aller(a.dataset.aller); return; }
+    var t = e.target.closest('[data-toast]');
+    if (t) message(t.dataset.toast);
+  });
+
+  /* ---------- Message court ---------- */
+  var minuteurMessage = null;
+  function message(txt) {
+    var m = $('#toast'); m.textContent = txt; m.hidden = false;
+    clearTimeout(minuteurMessage);
+    minuteurMessage = setTimeout(function () { m.hidden = true; }, 2600);
+  }
+
+  /* ---------- Accueil : en marche, en pause ---------- */
+  function majEtat() {
+    var hex = $('#hex-etat'), titre = $('#etat-titre'), sous = $('#etat-sous'), b = $('#b-pause');
+    var arret = etat.pause || etat.auto;
+    hex.classList.toggle('vit', !arret);
+    hex.classList.toggle('repos', arret);
+    titre.textContent = arret ? 'En pause' : 'En marche';
+    if (etat.auto) sous.textContent = 'Batterie sous 30' + NB + '%. Reprend toute seule.';
+    else if (etat.pause) sous.textContent = 'Aucune mesure tant que tu ne reprends pas';
+    else sous.textContent = 'Mesure quand le téléphone est posé';
+    b.hidden = etat.auto;
+    b.className = 'btn ' + (etat.pause ? 'plein' : 'tonal');
+    b.innerHTML = etat.pause ? '<svg><use href="#i-lecture"/></svg><span>Reprendre</span>' : '<svg><use href="#i-pause"/></svg><span>Pause</span>';
+    $('#r-pause').checked = etat.pause;
+  }
+  $('#b-pause').addEventListener('click', function () { etat.pause = !etat.pause; etat.auto = false; majEtat(); });
+  $('#r-pause').addEventListener('change', function (e) { etat.pause = e.target.checked; etat.auto = false; majEtat(); });
+  $$('[data-contrib]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      $('#contribution').hidden = true;
+      message(b.dataset.contrib === 'oui' ? 'Merci. Mesure dans une minute.' : 'D’accord, une autre fois.');
+    });
+  });
+  $('#r-contrib').addEventListener('change', function (e) { if (!e.target.checked) $('#contribution').hidden = true; });
+  $('#r-nuit').addEventListener('change', function (e) { if (e.target.checked) message('Mode nuit : mesure pendant la charge.'); });
+
+  /* ---------- Budget de batterie ---------- */
+  function fr(n) { return String(n).replace('.', ','); }
+  $$('[data-budget]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      etat.budget = parseFloat(b.dataset.budget);
+      $$('[data-budget]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      $('#budget-txt').textContent = fr(etat.budget) + ' %';
+      var p = Math.min(100, Math.round(0.4 / etat.budget * 100));
+      $('#jauge').style.width = p + '%';
+      $('.jauge').setAttribute('aria-valuenow', String(p));
+    });
+  });
+
+  /* ---------- Mes capteurs (valeurs simulées) ---------- */
+  var CAPTEURS = [
+    { nom: 'Champ magnétique', ico: 'aimant', unite: 'µT', brut: 51, corrige: 47, quand: 'il y a 8 min', serie: [46, 48, 47, 49, 52, 47, 46, 48, 47] },
+    { nom: 'Lumière', ico: 'soleil', unite: 'lx', brut: 312, corrige: 290, quand: 'il y a 8 min', serie: [40, 120, 260, 410, 380, 300, 340, 280, 290] },
+    { nom: 'Bruit', ico: 'bruit', unite: 'dB', brut: 41, corrige: 43, quand: 'il y a 26 min, aucun son gardé', serie: [38, 44, 52, 47, 41, 45, 49, 40, 43] },
+    { nom: 'Signal mobile', ico: 'signal', unite: 'dBm', brut: -97, corrige: -95, quand: 'il y a 8 min', serie: [-101, -98, -94, -96, -99, -93, -95, -97, -95] },
+    { nom: 'Pression', ico: 'pression', absent: true }
+  ];
+  function points(serie) {
+    var mn = Math.min.apply(null, serie), mx = Math.max.apply(null, serie), w = 52, h = 28, n = serie.length;
+    return serie.map(function (v, i) {
+      var x = 4 + i * (w - 8) / (n - 1), y = h - 5 - (mx === mn ? .5 : (v - mn) / (mx - mn)) * (h - 10);
+      var der = i === n - 1;
+      return '<circle' + (der ? ' class="der"' : '') + ' cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + (der ? 4 : 2.6) + '"/>';
+    }).join('');
+  }
+  function listeCapteurs() {
+    $('#liste-capteurs').innerHTML = CAPTEURS.map(function (c) {
+      var ico = '<span class="pastille"><svg><use href="#i-' + c.ico + '"/></svg></span>';
+      if (c.absent) return '<li class="capteur absent">' + ico + '<span class="c-nom"><b>' + c.nom + '</b><span class="t-petit">Pas sur ce téléphone</span></span></li>';
+      var v = c[etat.valeurs];
+      return '<li class="capteur">' + ico +
+        '<span class="c-nom"><b>' + c.nom + '</b><span class="t-petit">' + c.quand + '</span></span>' +
+        '<svg class="points" viewBox="0 0 52 28" role="img" aria-label="Mesures du jour">' + points(c.serie) + '</svg>' +
+        '<span class="c-val"><b>' + v + '</b><span>' + c.unite + '</span></span></li>';
+    }).join('');
+  }
+  $$('[data-valeurs]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      etat.valeurs = b.dataset.valeurs;
+      $$('[data-valeurs]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      $('#note-valeurs').textContent = etat.valeurs === 'brut' ? 'Telles que le capteur les donne' : 'Corrigé pour ton modèle de téléphone';
+      var l = $('#liste-capteurs'); l.classList.add('change');
+      setTimeout(function () { listeCapteurs(); l.classList.remove('change'); }, 160);
+    });
+  });
+  listeCapteurs();
+
+  /* ---------- Carte : zones hexagonales, valeurs simulées ---------- */
+  var COUCHES = {
+    bruit: { nom: 'Bruit', ico: 'bruit', unite: 'dB', min: 38, max: 72, rampe: ['#f2f0f7', '#cbc9e2', '#9e9ac8', '#6a51a3', '#3f007d'] },
+    magnetique: { nom: 'Magnétique', ico: 'aimant', unite: 'µT', min: 40, max: 60, rampe: ['#e8f6f3', '#b0e0d5', '#68bfae', '#2a8a7c', '#0b4f47'] },
+    lumiere: { nom: 'Lumière', ico: 'soleil', unite: 'lx', min: 50, max: 850, rampe: ['#fff6db', '#fde3a1', '#f7c25e', '#de8d2c', '#9a5212'] },
+    signal: { nom: 'Signal', ico: 'signal', unite: 'dBm', min: -115, max: -75, rampe: ['#edf8e9', '#bae4b3', '#74c476', '#238b45', '#00441b'] },
+    pression: { nom: 'Pression', ico: 'pression', unite: 'hPa', min: 1009, max: 1019, rampe: ['#eef5fc', '#b9d3ec', '#6aa5d4', '#2569ad', '#08306b'], rare: true }
+  };
+  /* En sombre, les valeurs faibles se fondent dans le fond : la rampe part du foncé */
+  function sombre() {
+    var t = document.documentElement.dataset.theme;
+    if (t === 'dark') return true;
+    if (t === 'light') return false;
+    return !!(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+  }
+  function hasard(graine) {
+    return function () {
+      graine |= 0; graine = graine + 0x6D2B79F5 | 0;
+      var t = Math.imul(graine ^ graine >>> 15, 1 | graine);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  function couleur(rampe, k) {
+    k = Math.max(0, Math.min(1, k)) * (rampe.length - 1);
+    var i = Math.min(rampe.length - 2, Math.floor(k)), f = k - i;
+    var a = rampe[i], b = rampe[i + 1];
+    var c = [1, 3, 5].map(function (p) {
+      var x = parseInt(a.substr(p, 2), 16), y = parseInt(b.substr(p, 2), 16);
+      return Math.round(x + (y - x) * f).toString(16).padStart(2, '0');
+    });
+    return '#' + c.join('');
+  }
+  var R = 26, W = R * Math.sqrt(3), ZONES = [], TOI = null;
+  (function grille() {
+    for (var j = 0; j < 10; j++) {
+      for (var i = 0; i < 10; i++) {
+        var cx = i * W + (j % 2 ? W / 2 : 0) - W / 2, cy = j * R * 1.5 - R / 2;
+        ZONES.push({ cx: cx, cy: cy, u: cx / 360, v: cy / 330 });
+      }
+    }
+    var best = 1e9;
+    ZONES.forEach(function (z) { var d = Math.hypot(z.cx - 150, z.cy - 175); if (d < best) { best = d; TOI = z; } });
+  })();
+  function routeProche(u, v) {
+    var d1 = Math.abs(v - (0.676 - 0.382 * u)), d2 = Math.abs(u - 0.58), d3 = Math.hypot(u - 0.2, v - 0.3);
+    return Math.min(d1, d2, Math.abs(d3 - 0.18));
+  }
+  function valeurs(id) {
+    var c = COUCHES[id], h = hasard(id.length * 977 + 31);
+    return ZONES.map(function (z) {
+      var u = z.u, v = z.v, r = h();
+      var ville = Math.hypot(u - 0.45, v - 0.5);
+      var parc = Math.hypot((u - 0.8) / 1.2, v - 0.2) < 0.13;
+      var vide = parc || (ville > 0.5 && r > 0.35) || (c.rare && (r > 0.55 || ville > 0.42));
+      if (z === TOI) vide = false;
+      if (vide) return null;
+      var k;
+      if (id === 'bruit') k = 0.12 + 0.72 * Math.exp(-Math.pow(routeProche(u, v) / 0.055, 2)) + 0.12 * (r - 0.5);
+      else if (id === 'signal') k = 0.85 - 0.9 * ville + 0.15 * (r - 0.5);
+      else if (id === 'pression') k = 0.25 + 0.6 * v + 0.05 * (r - 0.5);
+      else if (id === 'magnetique') k = 0.35 + 0.5 * Math.exp(-Math.pow(Math.hypot(u - 0.66, v - 0.68) / 0.12, 2)) + 0.1 * (r - 0.5);
+      else k = 0.9 - 0.8 * ville + 0.25 * (r - 0.5);
+      return Math.max(0, Math.min(1, k));
+    });
+  }
+  function hexD(cx, cy, r) {
+    var d = '';
+    for (var i = 0; i < 6; i++) {
+      var a = Math.PI / 180 * (60 * i - 90);
+      d += (i ? 'L' : 'M') + (cx + r * Math.cos(a)).toFixed(1) + ' ' + (cy + r * Math.sin(a)).toFixed(1);
+    }
+    return d + 'Z';
+  }
+  function format(c, k) {
+    var v = c.min + k * (c.max - c.min);
+    var t = Math.round(v);
+    if (Math.abs(t) >= 1000) t = String(t).replace(/(\d)(?=(\d{3})+$)/g, '$1' + NB);
+    return t + ' ' + c.unite;
+  }
+  var FOND = '<rect width="360" height="330" style="fill:var(--carte-fond)"/>' +
+    '<path d="M250 0C262 44 300 60 346 58V0z" style="fill:var(--carte-parc)"/>' +
+    '<path d="M-10 268C60 236 118 252 170 226S262 160 372 176" style="fill:none;stroke:var(--carte-eau)" stroke-width="16" stroke-linecap="round"/>' +
+    '<path d="M0 223L360 97M209 -10V340" style="fill:none;stroke:var(--carte-route)" stroke-width="6" stroke-linecap="round"/>' +
+    '<circle cx="72" cy="99" r="59" style="fill:none;stroke:var(--carte-route)" stroke-width="3.5"/>' +
+    '<path d="M20 330L130 150M360 300L250 250" style="fill:none;stroke:var(--carte-route)" stroke-width="3" stroke-linecap="round"/>';
+  function dessinerCarte() {
+    var c = COUCHES[etat.couche], vals = valeurs(etat.couche), svg = $('#carte-svg'), s = FOND;
+    var rampe = sombre() ? c.rampe.slice().reverse() : c.rampe;
+    ZONES.forEach(function (z, n) {
+      var k = vals[n];
+      s += '<path class="hx' + (k === null ? ' vide' : '') + '" data-n="' + n + '" d="' + hexD(z.cx, z.cy, R - 0.8) + '"' +
+        (k === null ? '' : ' fill="' + couleur(rampe, k) + '" fill-opacity=".8"') + '/>';
+    });
+    s += '<path class="hx-toi" d="' + hexD(TOI.cx, TOI.cy, R - 1.4) + '"/>';
+    s += '<g class="toi-etiq" transform="translate(' + (TOI.cx - 26).toFixed(1) + ' ' + (TOI.cy - R - 24).toFixed(1) + ')"><rect width="52" height="18" rx="9"/><text x="26" y="12.5" text-anchor="middle">Ta zone</text></g>';
+    svg.innerHTML = s;
+    $('#leg-min').textContent = format(c, 0);
+    $('#leg-max').textContent = format(c, 1);
+    $('#leg-barre').style.background = 'linear-gradient(90deg,' + rampe.join(',') + ')';
+    svg.setAttribute('aria-label', 'Aperçu de la carte : ' + c.nom.toLowerCase() + ', valeurs simulées');
+    $('#bulle').hidden = true;
+    svg.dataset.vals = JSON.stringify(vals);
+  }
+  $('#puces').innerHTML = Object.keys(COUCHES).map(function (id) {
+    var c = COUCHES[id];
+    return '<button class="puce" role="radio" aria-checked="' + (id === etat.couche) + '" data-couche="' + id + '"><svg aria-hidden="true"><use href="#i-' + c.ico + '"/></svg>' + c.nom + '</button>';
+  }).join('');
+  $$('[data-couche]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      etat.couche = b.dataset.couche;
+      $$('[data-couche]').forEach(function (x) { x.setAttribute('aria-checked', x === b ? 'true' : 'false'); });
+      dessinerCarte();
+    });
+  });
+  $('#carte-svg').addEventListener('click', function (e) {
+    var p = e.target.closest('.hx'), bulle = $('#bulle');
+    if (!p) { bulle.hidden = true; return; }
+    var n = +p.dataset.n, z = ZONES[n], k = JSON.parse(this.dataset.vals)[n], c = COUCHES[etat.couche];
+    bulle.innerHTML = k === null ? '<b>Zone vide</b>Moins de 5 téléphones' : '<b>' + format(c, k) + '</b>' + (z === TOI ? 'Ta zone, ' : '') + 'médiane du jour';
+    var cadre = $('#carte-cadre').getBoundingClientRect(), echelle = cadre.width / 360;
+    bulle.style.left = Math.max(70, Math.min(cadre.width - 70, z.cx * echelle)) + 'px';
+    bulle.style.top = Math.max(56, (z.cy - R * 0.6) * echelle) + 'px';
+    bulle.hidden = false;
+  });
+  dessinerCarte();
+  if (window.matchMedia) {
+    var mq = matchMedia('(prefers-color-scheme: dark)');
+    if (mq.addEventListener) mq.addEventListener('change', dessinerCarte);
+  }
+
+  /* ---------- Soutenir ---------- */
+  function majDon() {
+    var m = etat.montant === 'autre' ? 'un montant libre' : etat.montant + ' €';
+    $('#b-don').textContent = 'Donner ' + m + (etat.freq === 'mois' ? ' par mois' : '');
+  }
+  $$('[data-montant]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      etat.montant = b.dataset.montant === 'autre' ? 'autre' : +b.dataset.montant;
+      $$('[data-montant]').forEach(function (x) { x.setAttribute('aria-checked', x === b ? 'true' : 'false'); });
+      majDon();
+    });
+  });
+  $$('[data-freq]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      etat.freq = b.dataset.freq;
+      $$('[data-freq]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      majDon();
+    });
+  });
+  $('#b-don').addEventListener('click', function () { message('Maquette : aucun paiement.'); });
+  $('#b-partage').addEventListener('click', function () { message('Maquette : le partage s’ouvrira ici.'); });
+
+  /* ---------- Autorisations ---------- */
+  $$('[data-autoriser]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var s = document.createElement('span');
+      s.className = 'autorise'; s.innerHTML = '<svg aria-hidden="true"><use href="#i-coche"/></svg>Autorisé';
+      b.replaceWith(s);
+    });
+  });
+
+  /* ---------- Feuille Maquette ---------- */
+  var feuille = $('#feuille'), voile = $('#voile');
+  function ouvrirFeuille() { clearTimeout(minuteurDemarrage); feuille.hidden = false; voile.hidden = false; $('#f-fermer').focus(); }
+  function fermerFeuille() {
+    if (feuille.hidden) return;
+    feuille.hidden = true; voile.hidden = true; $('#b-maquette').focus({ preventScroll: true });
+  }
+  $('#b-maquette').addEventListener('click', ouvrirFeuille);
+  $('#f-fermer').addEventListener('click', fermerFeuille);
+  voile.addEventListener('click', fermerFeuille);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') fermerFeuille(); });
+  $$('[data-etat]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var v = b.dataset.etat;
+      etat.pause = v === 'pause'; etat.auto = v === 'auto';
+      $('#contribution').hidden = v !== 'contrib';
+      if (v === 'contrib') $('#r-contrib').checked = true;
+      majEtat();
+      if (etat.ecran !== 'accueil') aller('accueil'); else fermerFeuille();
+    });
+  });
+  $$('[data-theme-choix]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = b.dataset.themeChoix;
+      if (t === 'auto') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = t;
+      $$('[data-theme-choix]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      dessinerCarte();
+    });
+  });
+  $('#f-bords').addEventListener('change', function (e) { $('#bords').hidden = !e.target.checked; });
+
+  /* ---------- Départ ---------- */
+  majEtat(); majDon();
+  var depart = (location.hash || '').slice(1);
+  function ecranDe(h) { var e = document.getElementById(h); return e && e.classList.contains('ecran') ? h : null; }
+  aller(ecranDe(depart) || 'demarrage');
+  window.addEventListener('hashchange', function () { var h = ecranDe(location.hash.slice(1)); if (h) aller(h); });
+})();
+</script>

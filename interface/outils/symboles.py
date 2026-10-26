@@ -51,19 +51,28 @@ def vague(x0=-45.5, x1=170.0, y=NIVEAU, a=AMPL, lg=LONG, bas=100):
     return d + f"V{bas}H{f(x0)}Z"
 
 
-def zone(anime=False, ident="z"):
-    hx = hexagone(C, C, ZR, arrondi=ZCOIN)
-    interieur = hexagone(C, C, ZR - 0.5, arrondi=ZCOIN)
+# Boite du symbole dans le carre de 96 (bord exterieur du trait)
+Z_GAUCHE, Z_HAUT, Z_LARGEUR, Z_HAUTEUR = 10.59, 7.47, 74.82, 81.07
+
+
+def zone_chemins():
+    """Les trois chemins du symbole : contour, interieur (decoupe) et vague (remplissage)."""
+    return hexagone(C, C, ZR, arrondi=ZCOIN), hexagone(C, C, ZR - 0.5, arrondi=ZCOIN), vague(x1=104)
+
+
+def zone(anime=False, ident="z", contour="currentColor", rempli=None):
+    hx, interieur, vg = zone_chemins()
     clip = f'<clipPath id="{ident}-clip"><path d="{interieur}"/></clipPath>'
+    couleur = f' fill="{rempli}"' if rempli else ""
     if anime:
-        rempli = (f'<g clip-path="url(#{ident}-clip)"><g class="z-niveau">'
-                  f'<path class="z-vague" d="{vague()}"/></g></g>')
-        contour = (f'<path class="z-contour" pathLength="1" d="{hx}" fill="none" stroke="currentColor" '
-                   f'stroke-width="{ZTRAIT}" stroke-linejoin="round"/>')
+        bloc = (f'<g clip-path="url(#{ident}-clip)"><g class="z-niveau">'
+                f'<path class="z-vague"{couleur} d="{vague()}"/></g></g>')
+        trait = (f'<path class="z-contour" pathLength="1" d="{hx}" fill="none" stroke="{contour}" '
+                 f'stroke-width="{ZTRAIT}" stroke-linejoin="round"/>')
     else:
-        rempli = f'<g clip-path="url(#{ident}-clip)"><path d="{vague(x1=104)}"/></g>'
-        contour = f'<path d="{hx}" fill="none" stroke="currentColor" stroke-width="{ZTRAIT}" stroke-linejoin="round"/>'
-    return f"<defs>{clip}</defs>{rempli}{contour}"
+        bloc = f'<g clip-path="url(#{ident}-clip)"><path{couleur} d="{vg}"/></g>'
+        trait = f'<path d="{hx}" fill="none" stroke="{contour}" stroke-width="{ZTRAIT}" stroke-linejoin="round"/>'
+    return f"<defs>{clip}</defs>{bloc}{trait}"
 
 
 # ---------- 3. Onde : un S en forme d'onde, et le point qui mesure ----------

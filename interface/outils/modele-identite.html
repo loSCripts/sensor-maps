@@ -1,0 +1,400 @@
+<title>Sensor Maps Identité</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&display=swap">
+<style>
+/* Mise en page : une bande bleu nuit pour ouvrir, puis une colonne calme ; les visuels parlent, le texte reste court. */
+:root{
+  --papier:#f4f7fa; --surface:#ffffff; --encre:#0e1b2a; --encre-2:#566477; --trait:#dce3ea; --puce:#e7edf4;
+  --nuit:#163e6c; --miel:#f6b73c; --action:#163e6c; --sur-action:#ffffff;
+  --logo-contour:#163e6c; --bande:#163e6c; --bande-encre:#ffffff; --bande-encre-2:#c9d8ec;
+  --guide-toile:#c9d3de; --guide-visible:#b93a30; --guide-sur:#1f8f5c;
+  --focus:#2f6fd0;
+  --texte:"Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --papier:#08121d; --surface:#0f1d2c; --encre:#e8eff7; --encre-2:#9aa9ba; --trait:#223244; --puce:#172739;
+    --action:#9cc2f5; --sur-action:#0e1b2a; --logo-contour:#ffffff; --bande:#12345b; --bande-encre-2:#b4c6de;
+    --guide-toile:#3a4b5e; --guide-visible:#ff8a7e; --guide-sur:#5fd39a; --focus:#8ab4ff;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --papier:#08121d; --surface:#0f1d2c; --encre:#e8eff7; --encre-2:#9aa9ba; --trait:#223244; --puce:#172739;
+  --action:#9cc2f5; --sur-action:#0e1b2a; --logo-contour:#ffffff; --bande:#12345b; --bande-encre-2:#b4c6de;
+  --guide-toile:#3a4b5e; --guide-visible:#ff8a7e; --guide-sur:#5fd39a; --focus:#8ab4ff;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--papier);color:var(--encre);font:400 17px/1.55 var(--texte);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--papier)}
+h1,h2,h3,p,figure,ul,ol,dl,dd{margin:0}
+ul,ol{padding:0;list-style:none}
+svg{display:block}
+.colonne{max-width:640px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+
+/* Bande d'ouverture */
+.bande{background:var(--bande);color:var(--bande-encre)}
+.bande .colonne{padding-block:20px 44px;display:grid;gap:28px}
+.bande-tete{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.bande-tete svg{height:30px;width:auto}
+.bande-tete span{font-size:13px;color:var(--bande-encre-2);font-weight:500}
+.hero{display:grid;gap:22px;justify-items:start;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.hero svg{width:132px;height:132px;color:var(--bande-encre);fill:var(--miel);overflow:visible}
+h1{font-size:clamp(36px, 10vw, 54px);line-height:1;font-weight:650;font-stretch:86%;letter-spacing:-.028em;text-wrap:balance}
+
+/* Navigation des sections */
+.sommaire{position:sticky;top:env(safe-area-inset-top, 0px);z-index:5;background:var(--papier);border-bottom:1px solid var(--trait)}
+.sommaire .colonne{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.sommaire .colonne::-webkit-scrollbar{display:none}
+.sommaire a{flex:none;display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border-radius:18px;background:var(--puce);color:var(--encre);text-decoration:none;font-size:14.5px;font-weight:600}
+
+/* Sections */
+main.colonne{display:grid;gap:72px;padding-block:44px 72px}
+.section{display:grid;gap:18px;scroll-margin-top:72px;min-width:0}
+.etiquette{font-size:12px;font-weight:650;letter-spacing:.1em;text-transform:uppercase;color:var(--encre-2)}
+h2{font-size:32px;line-height:1.06;font-weight:650;font-stretch:88%;letter-spacing:-.02em;text-wrap:balance}
+h3{font-size:19px;line-height:1.3;font-weight:600;margin-top:10px}
+.chapo{color:var(--encre-2);max-width:38ch;text-wrap:pretty}
+.note{font-size:14.5px;color:var(--encre-2);line-height:1.45}
+.recit{display:grid;gap:12px;font-size:19px;line-height:1.5;max-width:34ch}
+.recit p:last-child{font-weight:600}
+.tuile{background:var(--surface);border-radius:24px;box-shadow:inset 0 0 0 1px var(--trait)}
+
+/* Logo */
+.etapes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.etapes li{display:grid;justify-items:center;gap:10px;padding:18px 8px 14px;text-align:center;font-size:13.5px;line-height:1.3;color:var(--encre-2)}
+.etapes svg{width:58px;height:58px;color:var(--logo-contour);fill:var(--miel)}
+.etapes .repos{fill:#c5cfda}
+.etapes b{display:block;color:var(--encre);font-weight:600;font-size:14.5px}
+.planche{display:grid;gap:10px}
+.spec{display:grid;place-items:center;border-radius:24px;padding:30px 20px}
+.spec svg{width:100%;height:auto;max-width:300px}
+.spec.clair{background:#ffffff;box-shadow:inset 0 0 0 1px var(--trait)}
+.spec.nuit{background:#163e6c}
+.spec.encre{background:#08121d;box-shadow:inset 0 0 0 1px var(--trait)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.duo .spec svg{max-width:150px}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.trio .spec{padding:22px 10px}
+.trio .spec svg{width:54px}
+.regles{display:grid;gap:10px}
+.regles li{display:flex;gap:12px;align-items:flex-start;line-height:1.4}
+.regles li::before{content:"";flex:none;width:12px;height:12px;margin-top:6px;border-radius:2px;background:var(--miel);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+
+/* Android */
+.adaptive{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:center;padding:18px}
+.adaptive svg{width:100%;height:auto;border-radius:8px}
+.leg{display:grid;gap:12px;font-size:14px;line-height:1.35;color:var(--encre-2)}
+.leg li{display:flex;gap:10px;align-items:flex-start}
+.leg i{flex:none;width:16px;height:16px;margin-top:1px;border-radius:3px}
+.leg b{color:var(--encre);font-weight:600}
+.formes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.formes li,.usages li{display:grid;justify-items:center;gap:10px;padding:18px 6px 14px;font-size:13.5px;line-height:1.3;color:var(--encre-2);text-align:center}
+.masque{width:72px;height:72px;overflow:hidden;position:relative}
+.masque svg{position:absolute;left:-18px;top:-18px;width:108px;height:108px}
+.usages{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.icone-theme{width:64px;height:64px;border-radius:50%;display:grid;place-items:center}
+.icone-theme svg{width:44px;height:44px}
+.barre-etat{height:64px;width:100%;max-width:150px;border-radius:14px;background:#0b121b;display:flex;align-items:center;gap:8px;padding:0 14px;color:#ffffff}
+.barre-etat svg{width:24px;height:24px}
+.barre-etat span{flex:1;height:6px;border-radius:3px;background:#ffffff;opacity:.25}
+.play{width:64px;height:64px;border-radius:20%;overflow:hidden}
+.play svg{width:100%;height:100%}
+.ecran-demarrage{width:64px;height:112px;border-radius:12px;background:#163e6c;display:grid;place-items:center;box-shadow:inset 0 0 0 3px #0b121b}
+.ecran-demarrage svg{width:30px;height:30px}
+
+/* Couleurs */
+.nuancier{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.teinte{border-radius:22px;padding:16px;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;font-size:14px;line-height:1.35}
+.teinte b{font-size:20px;font-weight:650;letter-spacing:-.01em}
+.teinte code{font:600 13px/1.4 var(--texte);letter-spacing:.04em;text-transform:uppercase;opacity:.8}
+.teinte.bord{box-shadow:inset 0 0 0 1px var(--trait)}
+.nuancier.petit{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (min-width:520px){.nuancier.petit{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.nuancier.petit .teinte{min-height:96px;padding:12px;border-radius:18px;font-size:12.5px}
+.nuancier.petit .teinte b{font-size:15px}
+.themes{display:grid;gap:10px}
+.theme{border-radius:24px;padding:18px;display:grid;gap:12px}
+.theme-tete{display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:600}
+.apercu{display:flex;gap:8px;flex-wrap:wrap}
+.apercu span{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border-radius:20px;font-weight:600;font-size:15px}
+.paires{display:grid;gap:6px;font-size:14.5px}
+.paires li{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ratio{font-variant-numeric:tabular-nums;font-weight:650;white-space:nowrap}
+.ratio::after{content:" AA";font-size:11px;letter-spacing:.06em;opacity:.7}
+.ratio.aaa::after{content:" AAA"}
+.rampes{display:grid;gap:10px}
+.rampes li{display:grid;grid-template-columns:150px 1fr;align-items:center;gap:12px;font-size:14.5px}
+.rampes i{height:14px;border-radius:7px}
+
+/* Typographie */
+.specimen{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;padding:22px}
+.aa{font-size:96px;line-height:.9;font-weight:650;font-stretch:88%;letter-spacing:-.03em}
+.jeu{font-size:14px;line-height:1.6;color:var(--encre-2);word-break:break-all}
+.echelle{display:grid}
+.echelle div{display:grid;gap:4px;padding:16px 0;border-top:1px solid var(--trait)}
+.echelle dt{font-size:12px;font-weight:650;letter-spacing:.08em;text-transform:uppercase;color:var(--encre-2);display:flex;justify-content:space-between;gap:10px}
+.echelle dt span{letter-spacing:0;text-transform:none;font-weight:500}
+.ex-grand{font-size:30px;line-height:1.08;font-weight:650;font-stretch:90%;letter-spacing:-.02em}
+.ex-titre{font-size:19px;font-weight:600}
+.ex-texte{font-size:16px;line-height:1.45}
+.ex-valeur{font-size:34px;line-height:1.1;font-weight:650;letter-spacing:-.015em}
+.ex-valeur small{font-size:16px;font-weight:500;color:var(--encre-2);letter-spacing:0}
+.ex-petit{font-size:13.5px;color:var(--encre-2)}
+.ex-etiq{font-size:12px;font-weight:650;letter-spacing:.08em;text-transform:uppercase;color:var(--encre-2)}
+
+/* Ton */
+.principes{display:grid;gap:8px}
+.principes li{font-size:18px;line-height:1.4;font-weight:500}
+.dit{display:grid;gap:10px}
+.dit li{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dit p{border-radius:18px;padding:14px;font-size:15px;line-height:1.35}
+.dit .oui{background:var(--surface);box-shadow:inset 0 0 0 1px var(--trait)}
+.dit .non{color:var(--encre-2)}
+.dit s{text-decoration-thickness:1.5px;text-decoration-color:var(--encre-2)}
+.dit small{display:block;font-size:11px;font-weight:650;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;margin-bottom:4px;color:var(--encre-2)}
+
+/* Mouvement */
+.scene{position:relative;aspect-ratio:5/4;max-width:100%;border-radius:28px;background:var(--bande);display:grid;place-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.scene > svg{width:40%;height:auto;color:var(--bande-encre);fill:var(--miel);overflow:visible}
+.rejouer{position:absolute;right:12px;bottom:12px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.14);color:var(--bande-encre);display:grid;place-items:center}
+.rejouer svg{width:20px;height:20px}
+.temps{display:grid;gap:10px;counter-reset:t}
+.temps li{display:flex;gap:12px;align-items:baseline;line-height:1.4}
+.temps li::before{counter-increment:t;content:counter(t);flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--encre);display:grid;place-items:center;font-size:13px;font-weight:650}
+
+/* Fichiers */
+.fichiers{display:grid;gap:10px}
+.fichiers li{line-height:1.4}
+.fichiers b{font-weight:650}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 24px;border-radius:26px;background:var(--action);color:var(--sur-action);text-decoration:none;font-weight:600;font-size:16.5px;justify-self:start}
+.btn svg{width:20px;height:20px}
+footer.colonne{padding-block:0 48px;font-size:13px;color:var(--encre-2)}
+
+a:focus-visible,.scene:focus-visible,.hero:focus-visible{outline:2.5px solid var(--focus);outline-offset:3px}
+
+/* Mouvement du logo */
+.o-cercle{opacity:0}
+@media (prefers-reduced-motion: no-preference){
+  html{scroll-behavior:smooth}
+  .joue .z-contour{animation:trace 1s cubic-bezier(.6,0,.3,1) backwards}
+  .joue .z-niveau{animation:monte 1.5s .45s both}
+  .joue .z-vague{animation:glisse 4.8s linear infinite}
+}
+@keyframes trace{from{stroke-dasharray:1;stroke-dashoffset:1}to{stroke-dasharray:1;stroke-dashoffset:0}}
+@keyframes monte{
+  0%{transform:translateY(42px)}
+  14%,20%{transform:translateY(33px)}
+  34%,40%{transform:translateY(25px)}
+  54%,60%{transform:translateY(17px)}
+  74%,80%{transform:translateY(9px)}
+  100%{transform:translateY(0)}
+}
+@keyframes glisse{to{transform:translateX(-62px)}}
+</style>
+
+<svg class="sprite" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
+  <symbol id="i-rejouer" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v4.4h4.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-fleche" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+
+<header class="bande" lang="fr">
+  <div class="colonne">
+    <div class="bande-tete">{{SIG_TETE}}<span>Identité</span></div>
+    <div class="hero" role="button" tabindex="0" aria-label="Rejouer l’animation du logo">
+      <svg viewBox="0 0 96 96" aria-hidden="true">{{HERO}}</svg>
+      <h1>La carte de ce qu’on ne voit pas.</h1>
+    </div>
+  </div>
+</header>
+
+<nav class="sommaire" aria-label="Sections"><div class="colonne">
+  <a href="#histoire">Histoire</a><a href="#logo">Logo</a><a href="#android">Android</a><a href="#couleurs">Couleurs</a><a href="#typo">Police</a><a href="#ton">Ton</a><a href="#mouvement">Mouvement</a><a href="#fichiers">Fichiers</a>
+</div></nav>
+
+<main class="colonne" lang="fr">
+
+  <section class="section" id="histoire" aria-labelledby="t-histoire">
+    <p class="etiquette" id="t-histoire">L’histoire</p>
+    <div class="recit">
+      <p>Autour de nous, il y a ce qu’on ne voit pas&nbsp;: la pression de l’air, le champ magnétique, la lumière, le bruit, le signal mobile.</p>
+      <p>Nos téléphones le sentent déjà.</p>
+      <p>Seul, un téléphone ne dit presque rien. Ensemble, quelques secondes au bon moment, ils dessinent une carte.</p>
+      <p>Toi, tu restes invisible&nbsp;: une zone et une valeur, jamais ton trajet ni qui tu es.</p>
+      <p>La carte est ouverte. Elle est à tout le monde.</p>
+    </div>
+  </section>
+
+  <section class="section" id="logo" aria-labelledby="t-logo">
+    <p class="etiquette">Le logo</p>
+    <h2 id="t-logo">Une zone qui se remplit</h2>
+    <p class="chapo">Une zone de la carte, comme sur la carte en ligne. Elle se remplit de mesures, et s’affiche quand cinq téléphones ont mesuré.</p>
+    <ol class="etapes">
+      <li class="tuile"><svg viewBox="0 0 96 96" aria-hidden="true">{{ETAPE_1}}</svg><span><b>Une zone</b>de la carte</span></li>
+      <li class="tuile"><svg viewBox="0 0 96 96" aria-hidden="true">{{ETAPE_2}}</svg><span><b>Des mesures</b>arrivent</span></li>
+      <li class="tuile"><svg viewBox="0 0 96 96" aria-hidden="true">{{ETAPE_3}}</svg><span><b>À cinq</b>elle s’affiche</span></li>
+    </ol>
+    <div class="planche">
+      <figure class="spec clair">{{SIG_H_COULEUR}}</figure>
+      <figure class="spec nuit">{{SIG_H_SOMBRE}}</figure>
+      <div class="duo"><figure class="spec clair">{{SIG_V_COULEUR}}</figure><figure class="spec encre">{{SIG_V_SOMBRE}}</figure></div>
+      <div class="trio"><figure class="spec clair">{{SYM_COULEUR}}</figure><figure class="spec clair">{{SYM_NOIR}}</figure><figure class="spec nuit">{{SYM_BLANC}}</figure></div>
+    </div>
+    <ul class="regles">
+      <li>La pointe toujours en haut, comme les zones de la carte.</li>
+      <li>Autour, un espace libre d’au moins la moitié du symbole.</li>
+      <li>Jamais plus petit que 16&nbsp;px de haut.</li>
+      <li>On ne change ni les couleurs ni les proportions.</li>
+    </ul>
+  </section>
+
+  <section class="section" id="android" aria-labelledby="t-android">
+    <p class="etiquette">Android</p>
+    <h2 id="t-android">Prêt pour le téléphone</h2>
+    <figure class="tuile adaptive">
+      <svg viewBox="0 0 108 108" role="img" aria-label="Icône adaptative avec ses repères">{{ADAPTATIVE}}</svg>
+      <ul class="leg">
+        <li><i style="background:var(--guide-toile)"></i><span><b>108&nbsp;dp</b> la toile de l’icône</span></li>
+        <li><i style="box-shadow:inset 0 0 0 2px var(--guide-visible)"></i><span><b>72&nbsp;dp</b> la partie visible</span></li>
+        <li><i style="border-radius:50%;box-shadow:inset 0 0 0 2px var(--guide-sur)"></i><span><b>66&nbsp;dp</b> la zone sûre, jamais coupée</span></li>
+        <li><i style="background:var(--miel);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)"></i><span><b>48&nbsp;dp</b> le symbole</span></li>
+      </ul>
+    </figure>
+    <ul class="formes">
+      <li class="tuile"><span class="masque" style="border-radius:50%">{{ICONE_108_1}}</span>Rond</li>
+      <li class="tuile"><span class="masque" style="border-radius:22%">{{ICONE_108_2}}</span>Carré arrondi</li>
+      <li class="tuile"><span class="masque" style="border-radius:36%">{{ICONE_108_3}}</span>Samsung</li>
+    </ul>
+    <ul class="usages">
+      <li class="tuile"><span style="display:flex;gap:8px"><span class="icone-theme" style="background:#d7e1ef;color:#1b2f4d">{{MONO_1}}</span><span class="icone-theme" style="background:#1f2c3d;color:#c6d6ec">{{MONO_2}}</span></span>Icônes à thème, Android 13 et plus</li>
+      <li class="tuile"><span class="barre-etat">{{NOTIF}}<span></span></span>Notification, 24&nbsp;dp, blanc</li>
+      <li class="tuile"><span class="play">{{PLAY}}</span>Google Play, 512&nbsp;px</li>
+      <li class="tuile"><span class="ecran-demarrage"><svg viewBox="0 0 96 96" aria-hidden="true" style="color:#ffffff;fill:#f6b73c">{{SYM_DEMARRAGE}}</svg></span>Écran de démarrage</li>
+    </ul>
+  </section>
+
+  <section class="section" id="couleurs" aria-labelledby="t-couleurs">
+    <p class="etiquette">Couleurs</p>
+    <h2 id="t-couleurs">Nuit et miel</h2>
+    <p class="chapo">Le bleu nuit, c’est ce qu’on ne voit pas. Le miel, ce qu’on mesure ensemble.</p>
+    <div class="nuancier">
+      <div class="teinte" style="background:#163e6c;color:#ffffff"><b>Nuit</b><code>#163E6C</code><span>La marque, l’icône, les boutons</span></div>
+      <div class="teinte" style="background:#f6b73c;color:#0e1b2a"><b>Miel</b><code>#F6B73C</code><span>Les mesures, Soutenir</span></div>
+      <div class="teinte bord" style="background:#f4f7fa;color:#0e1b2a"><b>Papier</b><code>#F4F7FA</code><span>Le fond clair</span></div>
+      <div class="teinte" style="background:#0e1b2a;color:#e8eff7"><b>Encre</b><code>#0E1B2A</code><span>Le texte</span></div>
+    </div>
+    <div class="nuancier petit">
+      <div class="teinte" style="background:#566477;color:#ffffff"><b>Ardoise</b><code>#566477</code><span>Texte doux</span></div>
+      <div class="teinte bord" style="background:#dce3ea;color:#0e1b2a"><b>Brume</b><code>#DCE3EA</code><span>Traits</span></div>
+      <div class="teinte" style="background:#9cc2f5;color:#0e1b2a"><b>Ciel</b><code>#9CC2F5</code><span>Bleu en sombre</span></div>
+      <div class="teinte" style="background:#b93a30;color:#ffffff"><b>Corail</b><code>#B93A30</code><span>Effacer</span></div>
+    </div>
+    <h3>Clair et sombre</h3>
+    <div class="themes">
+      <div class="theme" style="background:#f4f7fa;color:#0e1b2a;box-shadow:inset 0 0 0 1px #dce3ea">
+        <div class="theme-tete"><span>Clair</span><span style="font-weight:500;color:#566477">fond #F4F7FA</span></div>
+        <div class="apercu"><span style="background:#163e6c;color:#ffffff">Reprendre</span><span style="background:#f6b73c;color:#0e1b2a">Donner 5&nbsp;€</span><span style="background:#dce7f5;color:#163e6c">Pause</span></div>
+        <ul class="paires">{{PAIRES_CLAIR}}</ul>
+      </div>
+      <div class="theme" style="background:#08121d;color:#e8eff7">
+        <div class="theme-tete"><span>Sombre</span><span style="font-weight:500;color:#9aa9ba">fond #08121D</span></div>
+        <div class="apercu"><span style="background:#9cc2f5;color:#0e1b2a">Reprendre</span><span style="background:#f6b73c;color:#0e1b2a">Donner 5&nbsp;€</span><span style="background:#1d3550;color:#d6e6fb">Pause</span></div>
+        <ul class="paires">{{PAIRES_SOMBRE}}</ul>
+      </div>
+    </div>
+    <p class="note">Le miel n’écrit jamais sur fond clair ({{RATIO_MIEL}}, illisible)&nbsp;: il remplit, il ne parle pas.</p>
+    <h3>Les mesures sur la carte</h3>
+    <ul class="rampes">
+      <li><span>Bruit</span><i style="background:linear-gradient(90deg,#f2f0f7,#cbc9e2,#9e9ac8,#6a51a3,#3f007d)"></i></li>
+      <li><span>Champ magnétique</span><i style="background:linear-gradient(90deg,#e8f6f3,#b0e0d5,#68bfae,#2a8a7c,#0b4f47)"></i></li>
+      <li><span>Lumière</span><i style="background:linear-gradient(90deg,#fff6db,#fde3a1,#f7c25e,#de8d2c,#9a5212)"></i></li>
+      <li><span>Signal mobile</span><i style="background:linear-gradient(90deg,#edf8e9,#bae4b3,#74c476,#238b45,#00441b)"></i></li>
+      <li><span>Pression</span><i style="background:linear-gradient(90deg,#eef5fc,#b9d3ec,#6aa5d4,#2569ad,#08306b)"></i></li>
+    </ul>
+    <p class="note">Une teinte par mesure, du clair au foncé, à part des couleurs de la marque. En mode sombre, l’ordre s’inverse&nbsp;: les petites valeurs se fondent dans le fond.</p>
+  </section>
+
+  <section class="section" id="typo" aria-labelledby="t-typo">
+    <p class="etiquette">Typographie</p>
+    <h2 id="t-typo">Instrument Sans</h2>
+    <p class="chapo">Une seule famille, libre (licence OFL)&nbsp;: nette, lisible, avec des chiffres bien alignés.</p>
+    <div class="tuile specimen"><span class="aa">Aa</span><span class="jeu">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 µ % ° € é è à ç ô</span></div>
+    <dl class="echelle">
+      <div><dt>Grand titre <span>30&nbsp;px, gras, étroit</span></dt><dd class="ex-grand">Mes capteurs</dd></div>
+      <div><dt>Titre <span>19&nbsp;px, demi-gras</span></dt><dd class="ex-titre">En marche</dd></div>
+      <div><dt>Texte <span>16&nbsp;px</span></dt><dd class="ex-texte">Ton téléphone mesure quelques secondes, au bon moment.</dd></div>
+      <div><dt>Valeur <span>34&nbsp;px, gras</span></dt><dd class="ex-valeur">1&nbsp;013 <small>hPa</small></dd></div>
+      <div><dt>Petit <span>13,5&nbsp;px</span></dt><dd class="ex-petit">il y a 8 min</dd></div>
+      <div><dt>Étiquette <span>12&nbsp;px, capitales</span></dt><dd class="ex-etiq">Aujourd’hui</dd></div>
+    </dl>
+    <p class="note">Un espace avant chaque unité&nbsp;: 1&nbsp;013&nbsp;hPa, 47&nbsp;µT, 290&nbsp;lx, 43&nbsp;dB, -95&nbsp;dBm.</p>
+  </section>
+
+  <section class="section" id="ton" aria-labelledby="t-ton">
+    <p class="etiquette">Le ton</p>
+    <h2 id="t-ton">Simple et honnête</h2>
+    <ul class="principes">
+      <li>On tutoie.</li>
+      <li>Une phrase courte plutôt qu’un paragraphe.</li>
+      <li>Un chiffre a toujours son unité.</li>
+      <li>On ne décrit pas ce qui se voit déjà.</li>
+    </ul>
+    <ul class="dit">
+      <li><p class="oui"><small>On dit</small>Détecter un séisme en cours</p><p class="non"><small>On évite</small><s>Prédire les séismes</s></p></li>
+      <li><p class="oui"><small>On dit</small>Repérer des anomalies magnétiques</p><p class="non"><small>On évite</small><s>Voir à travers les murs</s></p></li>
+      <li><p class="oui"><small>On dit</small>Pas sur ce téléphone</p><p class="non"><small>On évite</small><s>Erreur&nbsp;: capteur introuvable</s></p></li>
+      <li><p class="oui"><small>On dit</small>En pause&nbsp;: batterie sous 30&nbsp;%</p><p class="non"><small>On évite</small><s>Attention, batterie faible&nbsp;!</s></p></li>
+    </ul>
+  </section>
+
+  <section class="section" id="mouvement" aria-labelledby="t-mouvement">
+    <p class="etiquette">Mouvement</p>
+    <h2 id="t-mouvement">La zone se remplit</h2>
+    <figure class="scene" role="button" tabindex="0" aria-label="Rejouer l’animation du logo">
+      <svg viewBox="0 0 96 96" aria-hidden="true">{{ANIME}}</svg>
+      <span class="rejouer" aria-hidden="true"><svg><use href="#i-rejouer"/></svg></span>
+    </figure>
+    <ol class="temps">
+      <li>Le contour se trace, en 1 seconde.</li>
+      <li>La mesure monte en cinq temps, comme cinq téléphones.</li>
+      <li>La vague bouge doucement, tant que l’appli mesure.</li>
+    </ol>
+    <p class="note">Rien ne clignote. Si le téléphone demande moins d’animations, tout reste fixe.</p>
+  </section>
+
+  <section class="section" id="fichiers" aria-labelledby="t-fichiers">
+    <p class="etiquette">Les fichiers</p>
+    <h2 id="t-fichiers">Dans le ZIP</h2>
+    <ul class="fichiers">
+      <li><b>logo/</b> le symbole et les signatures en SVG&nbsp;: couleur, sombre, noir, blanc.</li>
+      <li><b>android/res/</b> l’icône adaptative, la version monochrome, l’icône de notification et les icônes PNG.</li>
+      <li><b>android/google-play-512.png</b> l’icône de la fiche Google Play.</li>
+      <li><b>maquette/</b> la maquette de l’appli, à ouvrir sur le téléphone.</li>
+    </ul>
+    <a class="btn" href="{{LIEN_MAQUETTE}}"{{CIBLE_MAQUETTE}}>Voir la maquette de l’appli<svg aria-hidden="true"><use href="#i-fleche"/></svg></a>
+  </section>
+</main>
+<footer class="colonne" lang="fr">Sensor Maps, identité version 1.</footer>
+
+<script>
+(function () {
+  function jouer(el) {
+    var svg = el.querySelector('svg');
+    svg.classList.remove('joue'); void svg.getBoundingClientRect(); svg.classList.add('joue');
+  }
+  document.querySelectorAll('.hero, .scene').forEach(function (el) {
+    el.addEventListener('click', function () { jouer(el); });
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jouer(el); } });
+  });
+  jouer(document.querySelector('.hero'));
+  if ('IntersectionObserver' in window) {
+    var vu = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) { if (e.isIntersecting) { jouer(e.target); vu.unobserve(e.target); } });
+    }, { threshold: 0.6 });
+    vu.observe(document.querySelector('.scene'));
+  }
+})();
+</script>
