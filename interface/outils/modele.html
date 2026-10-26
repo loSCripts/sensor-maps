@@ -1,0 +1,252 @@
+<title>Sensor Maps Identité</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&display=swap">
+<style>
+/* Mise en page : une seule colonne calme, les symboles en grand, très peu de texte. */
+:root{
+  --papier:#f2f5f8;
+  --surface:#ffffff;
+  --encre:#0e1b2a;
+  --encre-2:#566477;
+  --trait:#dbe2ea;
+  --bleu:#1b4b85;
+  --sur-bleu:#ffffff;
+  --theme-fond:#d7e1ef;
+  --theme-encre:#1b2f4d;
+  --notif-fond:#28303a;
+  --notif-encre:#ffffff;
+  --spec-clair:#ffffff;
+  --spec-clair-encre:#0e1b2a;
+  --spec-sombre:#0c1520;
+  --spec-sombre-encre:#e3ecf6;
+  --spec-sombre-bord:transparent;
+  --accueil-fond:#0f1a27;
+  --accueil-lueur:#24476e;
+  --accueil-texte:#e9eff6;
+  --focus:#2f6fd0;
+  --texte:"Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --papier:#0a1018; --surface:#111a25; --encre:#e5ecf4; --encre-2:#93a2b4; --trait:#223041;
+    --theme-fond:#1f2c3d; --theme-encre:#c6d6ec; --notif-fond:#1b222b;
+    --accueil-fond:#121d2a; --accueil-lueur:#1f3d5f; --focus:#8ab4ff; --spec-sombre-bord:#2a3a4d;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --papier:#0a1018; --surface:#111a25; --encre:#e5ecf4; --encre-2:#93a2b4; --trait:#223041;
+  --theme-fond:#1f2c3d; --theme-encre:#c6d6ec; --notif-fond:#1b222b;
+  --accueil-fond:#121d2a; --accueil-lueur:#1f3d5f; --focus:#8ab4ff; --spec-sombre-bord:#2a3a4d;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--papier);color:var(--encre);font:400 17px/1.55 var(--texte);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+h1,h2,p,figure{margin:0}
+.page{max-width:600px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:20px 64px;display:grid;gap:64px}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+
+/* En-tête */
+.tete{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.tete-nom{font-weight:650;letter-spacing:-.01em}
+.tete-etape{font-size:13px;color:var(--encre-2);font-variant-numeric:tabular-nums}
+
+/* Histoire */
+.histoire{display:grid;gap:20px}
+.etiquette{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--encre-2)}
+h1{font-size:clamp(32px, 8.6vw, 46px);line-height:1.04;font-weight:650;font-stretch:88%;letter-spacing:-.018em;text-wrap:balance}
+.recit{display:grid;gap:12px;font-size:18px;line-height:1.5;max-width:36ch}
+.recit p:last-child{font-weight:600}
+
+/* Les trois icônes sur un écran d'accueil */
+.accueil{display:grid;gap:14px}
+.ecran{border-radius:26px;padding:26px 10px 20px;background:radial-gradient(120% 100% at 15% 0%, var(--accueil-lueur) 0%, var(--accueil-fond) 62%);display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.app{display:grid;justify-items:center;gap:9px;color:var(--accueil-texte);text-decoration:none;font-size:13px;border-radius:16px;padding:6px 0}
+.app-ico{width:min(64px, 17vw);aspect-ratio:1;max-width:100%;border-radius:30%;background:var(--bleu);color:var(--sur-bleu);display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.28)}
+.app-ico svg{width:80%;height:80%}
+
+/* Une piste */
+.piste{display:grid;gap:16px;scroll-margin-top:16px}
+.piste-tete{display:flex;align-items:center;gap:12px}
+.num{flex:none;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--encre);display:grid;place-items:center;font-size:15px;font-weight:650;font-variant-numeric:tabular-nums}
+h2{font-size:30px;line-height:1.1;font-weight:650;font-stretch:90%;letter-spacing:-.02em}
+.idee{color:var(--encre-2);max-width:34ch;text-wrap:pretty}
+.scene{position:relative;aspect-ratio:5/4;max-width:100%;background:var(--surface);border-radius:28px;display:grid;place-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.scene > svg{width:52%;height:auto;color:var(--encre);fill:currentColor;overflow:visible}
+.rejouer{position:absolute;right:12px;bottom:12px;width:44px;height:44px;border-radius:50%;border:1px solid var(--trait);background:var(--surface);color:var(--encre-2);display:grid;place-items:center;cursor:pointer;padding:0}
+.rejouer svg{width:20px;height:20px}
+.signatures{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sig{border-radius:20px;padding:20px 10px;display:flex;align-items:center;justify-content:center;gap:8px;min-width:0}
+.sig svg{flex:none;width:34px;height:34px;fill:currentColor}
+.sig span{font-weight:650;font-size:18px;letter-spacing:-.012em;white-space:nowrap}
+.sig.clair{background:var(--spec-clair);color:var(--spec-clair-encre);box-shadow:inset 0 0 0 1px var(--trait)}
+.sig.sombre{background:var(--spec-sombre);color:var(--spec-sombre-encre);box-shadow:inset 0 0 0 1px var(--spec-sombre-bord)}
+.usages{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.usages li{display:grid;justify-items:center;align-content:start;gap:8px;font-size:13px;line-height:1.3;color:var(--encre-2);text-align:center}
+.u-ico{width:64px;height:64px;border-radius:30%;display:grid;place-items:center}
+.u-ico svg{width:80%;height:80%;fill:currentColor}
+.u-ico.marque{background:var(--bleu);color:var(--sur-bleu)}
+.u-ico.theme{background:var(--theme-fond);color:var(--theme-encre)}
+.u-ico.notif{background:var(--notif-fond);color:var(--notif-encre);border-radius:50%}
+.u-ico.notif svg{width:24px;height:24px}
+
+/* Le choix */
+.choix{display:grid;gap:10px;padding-top:8px;border-top:1px solid var(--trait)}
+.choix h2{padding-top:28px}
+.choix p{color:var(--encre-2)}
+.note{font-size:13px}
+
+a:focus-visible,button:focus-visible,.scene:focus-visible{outline:2.5px solid var(--focus);outline-offset:3px}
+
+/* Mouvement : chaque symbole se construit, une fois à l'arrivée et à chaque toucher */
+.o-cercle{opacity:0}
+@media (prefers-reduced-motion: no-preference){
+  html{scroll-behavior:smooth}
+  .scene.joue .pt{transform-box:fill-box;transform-origin:center;animation:pt-entre .6s cubic-bezier(.2,.8,.3,1.3) both, pt-vague 1s ease-in-out;animation-delay:calc(var(--d) * 1ms), calc(var(--d) * 1ms + 1000ms)}
+  .scene.joue .z-contour{animation:trace 1s cubic-bezier(.6,0,.3,1) backwards}
+  .scene.joue .z-niveau{animation:monte 1.9s .6s both}
+  .scene.joue .z-vague{animation:glisse 2.2s linear 3}
+  .scene.joue .o-trait{animation:trace 1.15s cubic-bezier(.65,0,.25,1) backwards}
+  .scene.joue .o-point{transform-box:fill-box;transform-origin:center;animation:pop .5s 1.05s cubic-bezier(.2,.8,.3,1.5) both}
+  .scene.joue .o-cercle{transform-box:fill-box;transform-origin:center;animation:onde 1.4s 1.3s ease-out forwards}
+}
+@keyframes pt-entre{from{transform:scale(0)}}
+@keyframes pt-vague{50%{transform:scale(1.16)}}
+@keyframes trace{from{stroke-dasharray:1;stroke-dashoffset:1}to{stroke-dasharray:1;stroke-dashoffset:0}}
+@keyframes monte{
+  0%{transform:translateY(42px)}
+  14%,20%{transform:translateY(33px)}
+  34%,40%{transform:translateY(25px)}
+  54%,60%{transform:translateY(17px)}
+  74%,80%{transform:translateY(9px)}
+  100%{transform:translateY(0)}
+}
+@keyframes glisse{to{transform:translateX(-62px)}}
+@keyframes pop{from{transform:scale(0)}}
+@keyframes onde{0%{transform:scale(1);opacity:.85}100%{transform:scale(4.4);opacity:0}}
+</style>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="sym-points" viewBox="0 0 96 96">{{POINTS}}</symbol>
+    <symbol id="sym-points-petit" viewBox="0 0 96 96">{{POINTS_PETIT}}</symbol>
+    <symbol id="sym-zone" viewBox="0 0 96 96">{{ZONE}}</symbol>
+    <symbol id="sym-onde" viewBox="0 0 96 96">{{ONDE}}</symbol>
+    <symbol id="sym-rejouer" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v4.4h4.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<main class="page" lang="fr">
+  <header class="tete">
+    <span class="tete-nom">Sensor Maps</span>
+    <span class="tete-etape">Identité, étape 1 sur 3</span>
+  </header>
+
+  <section class="histoire" aria-labelledby="t-histoire">
+    <p class="etiquette" id="t-histoire">L’histoire</p>
+    <h1>La carte de ce qu’on ne voit pas.</h1>
+    <div class="recit">
+      <p>Autour de nous, il y a ce qu’on ne voit pas&nbsp;: la pression de l’air, le champ magnétique, la lumière, le bruit, le signal mobile.</p>
+      <p>Nos téléphones le sentent déjà.</p>
+      <p>Seul, un téléphone ne dit presque rien. Ensemble, quelques secondes au bon moment, ils dessinent une carte.</p>
+      <p>Toi, tu restes invisible&nbsp;: une zone et une valeur, jamais ton trajet ni qui tu es.</p>
+      <p>La carte est ouverte. Elle est à tout le monde.</p>
+    </div>
+  </section>
+
+  <section class="accueil" aria-label="Les trois pistes sur un écran d’accueil">
+    <p class="etiquette">Trois pistes de logo</p>
+    <div class="ecran">
+      <a class="app" href="#piste-1"><span class="app-ico"><svg viewBox="0 0 96 96" fill="currentColor" aria-hidden="true"><use href="#sym-points"/></svg></span>1 · Points</a>
+      <a class="app" href="#piste-2"><span class="app-ico"><svg viewBox="0 0 96 96" fill="currentColor" aria-hidden="true"><use href="#sym-zone"/></svg></span>2 · Zone</a>
+      <a class="app" href="#piste-3"><span class="app-ico"><svg viewBox="0 0 96 96" fill="currentColor" aria-hidden="true"><use href="#sym-onde"/></svg></span>3 · Onde</a>
+    </div>
+  </section>
+
+  <section class="piste" id="piste-1" aria-labelledby="t-p1">
+    <div class="piste-tete"><span class="num">1</span><h2 id="t-p1">Points</h2></div>
+    <p class="idee">Chaque point est un téléphone. Ensemble, ils dessinent une zone de la carte.</p>
+    <figure class="scene" tabindex="0" role="button" aria-label="Rejouer l’animation de la piste Points">
+      <svg viewBox="0 0 96 96" aria-hidden="true">{{HERO_POINTS}}</svg>
+      <span class="rejouer" aria-hidden="true"><svg><use href="#sym-rejouer"/></svg></span>
+    </figure>
+    <div class="signatures">
+      <div class="sig clair"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#sym-points-petit"/></svg><span>Sensor Maps</span></div>
+      <div class="sig sombre"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#sym-points-petit"/></svg><span>Sensor Maps</span></div>
+    </div>
+    <ul class="usages">
+      <li><span class="u-ico marque"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#sym-points"/></svg></span>Icône</li>
+      <li><span class="u-ico theme"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#sym-points"/></svg></span>Thème Android</li>
+      <li><span class="u-ico notif"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#sym-points-petit"/></svg></span>Notification</li>
+    </ul>
+  </section>
+
+  <section class="piste" id="piste-2" aria-labelledby="t-p2">
+    <div class="piste-tete"><span class="num">2</span><h2 id="t-p2">Zone</h2></div>
+    <p class="idee">Une zone de la carte se remplit de mesures. À cinq téléphones, elle s’affiche.</p>
+    <figure class="scene" tabindex="0" role="button" aria-label="Rejouer l’animation de la piste Zone">
+      <svg viewBox="0 0 96 96" aria-hidden="true">{{HERO_ZONE}}</svg>
+      <span class="rejouer" aria-hidden="true"><svg><use href="#sym-rejouer"/></svg></span>
+    </figure>
+    <div class="signatures">
+      <div class="sig clair"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#sym-zone"/></svg><span>Sensor Maps</span></div>
+      <div class="sig sombre"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#sym-zone"/></svg><span>Sensor Maps</span></div>
+    </div>
+    <ul class="usages">
+      <li><span class="u-ico marque"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#sym-zone"/></svg></span>Icône</li>
+      <li><span class="u-ico theme"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#sym-zone"/></svg></span>Thème Android</li>
+      <li><span class="u-ico notif"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#sym-zone"/></svg></span>Notification</li>
+    </ul>
+  </section>
+
+  <section class="piste" id="piste-3" aria-labelledby="t-p3">
+    <div class="piste-tete"><span class="num">3</span><h2 id="t-p3">Onde</h2></div>
+    <p class="idee">Un S en forme d’onde, et un point&nbsp;: le téléphone qui mesure.</p>
+    <figure class="scene" tabindex="0" role="button" aria-label="Rejouer l’animation de la piste Onde">
+      <svg viewBox="0 0 96 96" aria-hidden="true">{{HERO_ONDE}}</svg>
+      <span class="rejouer" aria-hidden="true"><svg><use href="#sym-rejouer"/></svg></span>
+    </figure>
+    <div class="signatures">
+      <div class="sig clair"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#sym-onde"/></svg><span>Sensor Maps</span></div>
+      <div class="sig sombre"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#sym-onde"/></svg><span>Sensor Maps</span></div>
+    </div>
+    <ul class="usages">
+      <li><span class="u-ico marque"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#sym-onde"/></svg></span>Icône</li>
+      <li><span class="u-ico theme"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#sym-onde"/></svg></span>Thème Android</li>
+      <li><span class="u-ico notif"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#sym-onde"/></svg></span>Notification</li>
+    </ul>
+  </section>
+
+  <footer class="choix">
+    <h2>Ton choix&nbsp;: 1, 2 ou 3&#8239;?</h2>
+    <p>Ensuite, je fais la palette et la police, puis les écrans.</p>
+    <p class="note">Couleurs et police&nbsp;: provisoires.</p>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var scenes = document.querySelectorAll('.scene');
+  function jouer(s) {
+    s.classList.remove('joue');
+    void s.getBoundingClientRect();
+    s.classList.add('joue');
+  }
+  scenes.forEach(function (s) {
+    s.addEventListener('click', function () { jouer(s); });
+    s.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jouer(s); }
+    });
+  });
+  if ('IntersectionObserver' in window) {
+    var vu = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) {
+        if (e.isIntersecting) { jouer(e.target); vu.unobserve(e.target); }
+      });
+    }, { threshold: 0.6 });
+    scenes.forEach(function (s) { vu.observe(s); });
+  }
+})();
+</script>
