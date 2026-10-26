@@ -32,8 +32,14 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Préparer le SDK Android
-        uses: android-actions/setup-android@v3
+      # Les outils Android sont déjà sur les serveurs de GitHub : on ajoute seulement la version 17.
+      # (L'action android-actions/setup-android@v3 ne marche plus : elle cherche un paquet supprimé.)
+      - name: Ajouter Android 17 aux outils Android
+        run: |
+          sdkm="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          [ -x "$sdkm" ] || sdkm=$(ls "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -n 1)
+          yes | "$sdkm" --licenses > /dev/null || true
+          "$sdkm" "platforms;android-37.0" "build-tools;36.0.0" > /dev/null
 
       - name: Installer Gradle
         uses: gradle/actions/setup-gradle@v4
