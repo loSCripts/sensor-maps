@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="sm_nuit">#163E6C</color>
-    <color name="sm_miel">#F6B73C</color>
-    <color name="sm_papier">#F4F7FA</color>
-    <color name="sm_encre">#0E1B2A</color>
-    <color name="sm_fond_sombre">#08121D</color>
-    <color name="ic_launcher_background">#163E6C</color>
+    <color name="sm_noir">#000000</color>
+    <color name="sm_blanc">#FFFFFF</color>
+    <color name="sm_gris">#5C5C5C</color>
+    <color name="sm_gris_clair">#A3A3A3</color>
+    <color name="ic_launcher_background">#000000</color>
 </resources>

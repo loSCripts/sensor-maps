@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#f4f7fa" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#08121d" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <title>Sensor Maps Maquette</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,16 +13,15 @@
 <style>
 /* Maquette : l'écran du téléphone remplit la page sur mobile ; sur grand écran, un cadre de téléphone. */
 :root{
-  --fond:#f4f7fa; --surface:#ffffff; --surface-2:#e9eef4; --encre:#0e1b2a; --encre-2:#566477; --trait:#dce3ea;
-  --nuit:#163e6c; --miel:#f6b73c; --miel-doux:#fdf1d8; --sur-miel:#0e1b2a;
-  --action:#163e6c; --sur-action:#ffffff; --tonal:#dce7f5; --sur-tonal:#163e6c;
-  --logo-contour:#163e6c; --repos:#c5cfda; --corail:#b93a30;
-  --nav-fond:#ffffff; --indic:#dce7f5;
-  --marque-fond:#163e6c; --marque-encre:#ffffff; --marque-encre-2:#c9d8ec;
-  --carte-fond:#e7ecf1; --carte-eau:#c6daec; --carte-route:#fbfcfd; --carte-parc:#d6e6d3;
-  --zone-vide:#b9c4d0; --zone-gap:#e7ecf1;
-  --scene:#d7dee6; --cadre:#0b1117; --voile:rgba(8,18,29,.45);
-  --ombre:0 1px 2px rgba(14,27,42,.05), 0 6px 18px rgba(14,27,42,.06);
+  --fond:#ffffff; --surface:#f2f2f2; --surface-2:#e6e6e6; --encre:#000000; --encre-2:#5c5c5c; --trait:#e3e3e3;
+  --action:#000000; --sur-action:#ffffff; --tonal:#e6e6e6; --sur-tonal:#000000;
+  --logo:#000000; --repos:#c4c4c4; --repos-trait:#8c8c8c;
+  --nav-fond:#f7f7f7; --indic:#e3e3e3; --segment-on:#ffffff; --feuille:#ffffff;
+  --marque-fond:#ffffff; --marque-encre:#000000; --marque-encre-2:#5c5c5c;
+  --carte-fond:#f0f0f0; --carte-eau:#dcdcdc; --carte-route:#ffffff; --carte-parc:#e6e6e6;
+  --zone-vide:#bdbdbd; --zone-gap:#f0f0f0;
+  --scene:#dcdcdc; --cadre:#111111; --voile:rgba(0,0,0,.45);
+  --ombre:none;
   --bord:rgba(185,58,48,.20); --bord-encre:#7a231c;
   --focus:#2f6fd0;
   --texte:"Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
@@ -30,27 +29,29 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --fond:#08121d; --surface:#0f1d2c; --surface-2:#172739; --encre:#e8eff7; --encre-2:#9aa9ba; --trait:#223244;
-    --miel-doux:#30250e; --action:#9cc2f5; --sur-action:#0e1b2a; --tonal:#1d3550; --sur-tonal:#d6e6fb;
-    --logo-contour:#ffffff; --repos:#3b4b5d; --corail:#ff8a7e; --nav-fond:#0f1d2c; --indic:#1d3550;
-    --marque-fond:#12345b; --marque-encre-2:#b4c6de;
-    --carte-fond:#0c1824; --carte-eau:#123150; --carte-route:#1c2c3e; --carte-parc:#11261b;
-    --zone-vide:#33445a; --zone-gap:#0c1824;
-    --scene:#02060a; --cadre:#1a222c; --voile:rgba(0,0,0,.6); --ombre:none;
+    --fond:#000000; --surface:#141414; --surface-2:#262626; --encre:#ffffff; --encre-2:#a3a3a3; --trait:#2a2a2a;
+    --action:#ffffff; --sur-action:#000000; --tonal:#262626; --sur-tonal:#ffffff;
+    --logo:#ffffff; --repos:#3d3d3d; --repos-trait:#7a7a7a;
+    --nav-fond:#0b0b0b; --indic:#2a2a2a; --segment-on:#3a3a3a; --feuille:#1a1a1a;
+    --marque-fond:#000000; --marque-encre:#ffffff; --marque-encre-2:#a3a3a3;
+    --carte-fond:#0f0f0f; --carte-eau:#1c1c1c; --carte-route:#232323; --carte-parc:#161616;
+    --zone-vide:#3a3a3a; --zone-gap:#0f0f0f;
+    --scene:#050505; --cadre:#222222; --voile:rgba(0,0,0,.65); --ombre:none;
     --bord:rgba(255,138,126,.22); --bord-encre:#ffd2cc; --focus:#8ab4ff;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --fond:#08121d; --surface:#0f1d2c; --surface-2:#172739; --encre:#e8eff7; --encre-2:#9aa9ba; --trait:#223244;
-  --miel-doux:#30250e; --action:#9cc2f5; --sur-action:#0e1b2a; --tonal:#1d3550; --sur-tonal:#d6e6fb;
-  --logo-contour:#ffffff; --repos:#3b4b5d; --corail:#ff8a7e; --nav-fond:#0f1d2c; --indic:#1d3550;
-  --marque-fond:#12345b; --marque-encre-2:#b4c6de;
-  --carte-fond:#0c1824; --carte-eau:#123150; --carte-route:#1c2c3e; --carte-parc:#11261b;
-  --zone-vide:#33445a; --zone-gap:#0c1824;
-  --scene:#02060a; --cadre:#1a222c; --voile:rgba(0,0,0,.6); --ombre:none;
-  --bord:rgba(255,138,126,.22); --bord-encre:#ffd2cc; --focus:#8ab4ff;
-  color-scheme:dark;
+    --fond:#000000; --surface:#141414; --surface-2:#262626; --encre:#ffffff; --encre-2:#a3a3a3; --trait:#2a2a2a;
+    --action:#ffffff; --sur-action:#000000; --tonal:#262626; --sur-tonal:#ffffff;
+    --logo:#ffffff; --repos:#3d3d3d; --repos-trait:#7a7a7a;
+    --nav-fond:#0b0b0b; --indic:#2a2a2a; --segment-on:#3a3a3a; --feuille:#1a1a1a;
+    --marque-fond:#000000; --marque-encre:#ffffff; --marque-encre-2:#a3a3a3;
+    --carte-fond:#0f0f0f; --carte-eau:#1c1c1c; --carte-route:#232323; --carte-parc:#161616;
+    --zone-vide:#3a3a3a; --zone-gap:#0f0f0f;
+    --scene:#050505; --cadre:#222222; --voile:rgba(0,0,0,.65); --ombre:none;
+    --bord:rgba(255,138,126,.22); --bord-encre:#ffd2cc; --focus:#8ab4ff;
+    color-scheme:dark;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
@@ -69,7 +70,7 @@ svg{display:block}
 /* Barre d'état simulée : l'appli s'affiche dessous (bord à bord, Android 15 et plus) */
 .etat{position:absolute;inset:0 0 auto;height:var(--h-etat);display:flex;align-items:center;justify-content:space-between;padding:0 16px 0 10px;z-index:40;color:var(--encre);pointer-events:none;transition:color .2s}
 .tel.fonce .etat{color:var(--marque-encre)}
-.badge{pointer-events:auto;display:inline-flex;align-items:center;gap:3px;height:22px;padding:0 6px 0 10px;border:0;border-radius:11px;background:var(--miel);color:var(--sur-miel);font:650 12px/1 var(--texte);letter-spacing:.01em;cursor:pointer}
+.badge{pointer-events:auto;display:inline-flex;align-items:center;gap:3px;height:22px;padding:0 6px 0 10px;border:0;border-radius:11px;background:var(--encre);color:var(--fond);font:650 12px/1 var(--texte);letter-spacing:.01em;cursor:pointer}
 .badge svg{width:14px;height:14px}
 .etat-icones{display:flex;align-items:center;gap:7px;opacity:.85}
 .etat-icones svg{width:15px;height:15px}
@@ -99,7 +100,6 @@ svg{display:block}
 .btn svg{width:20px;height:20px;flex:none}
 .btn.plein{background:var(--action);color:var(--sur-action)}
 .btn.tonal{background:var(--tonal);color:var(--sur-tonal)}
-.btn.miel{background:var(--miel);color:var(--sur-miel)}
 .btn.contour{background:transparent;color:var(--action);box-shadow:inset 0 0 0 1.5px var(--trait)}
 .btn.texte{background:transparent;color:var(--action);padding:0 14px}
 .btn.large{width:100%}
@@ -109,10 +109,10 @@ svg{display:block}
 .carte{background:var(--surface);border-radius:24px;padding:18px;box-shadow:var(--ombre)}
 .pastille{flex:none;width:40px;height:40px;border-radius:50%;background:var(--surface-2);color:var(--encre);display:grid;place-items:center}
 .pastille svg{width:22px;height:22px}
-.pastille.miel{background:var(--miel);color:var(--sur-miel)}
+.pastille.fort{background:var(--encre);color:var(--fond)}
 .segment{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:24px;background:var(--surface-2)}
 .segment button{min-height:40px;border:0;border-radius:20px;background:transparent;color:var(--encre-2);font-weight:600;font-size:15px;cursor:pointer;transition:background-color .2s, color .2s}
-.segment button[aria-pressed="true"]{background:var(--surface);color:var(--encre);box-shadow:var(--ombre)}
+.segment button[aria-pressed="true"]{background:var(--segment-on);color:var(--encre)}
 .interrupteur{appearance:none;-webkit-appearance:none;flex:none;position:relative;width:52px;height:32px;margin:0;border-radius:16px;background:var(--surface-2);box-shadow:inset 0 0 0 2px var(--repos);cursor:pointer;transition:background-color .2s, box-shadow .2s}
 .interrupteur::after{content:"";position:absolute;top:8px;left:8px;width:16px;height:16px;border-radius:50%;background:var(--encre-2);transition:transform .2s, width .2s, height .2s, top .2s, left .2s, background-color .2s}
 .interrupteur:checked{background:var(--action);box-shadow:none}
@@ -120,8 +120,8 @@ svg{display:block}
 
 /* Marque (démarrage, bienvenue) */
 .ecran.marque{background:var(--marque-fond);color:var(--marque-encre)}
-.logo-2t{color:var(--logo-contour);fill:var(--miel)}
-.ecran.marque .logo-2t{color:var(--marque-encre)}
+.logo-2t{color:var(--logo);fill:var(--logo)}
+.ecran.marque .logo-2t{color:var(--marque-encre);fill:var(--marque-encre)}
 .demarrage{flex:1;display:grid;place-items:center}
 .demarrage svg{width:112px;height:112px}
 .intro{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:calc(var(--h-etat) + 24px) 28px 8px}
@@ -148,8 +148,8 @@ svg{display:block}
 .marque-mini{display:inline-flex;align-items:center;gap:10px;font-weight:650;font-size:18px;letter-spacing:-.01em}
 .marque-mini svg{width:28px;height:28px}
 .etat-carte{display:grid;justify-items:center;text-align:center;gap:4px;padding:22px 18px 20px}
-.hex-etat{width:104px;height:104px;margin-bottom:10px;color:var(--logo-contour);fill:var(--miel);transition:fill .4s}
-.hex-etat.repos{fill:var(--repos)}
+.hex-etat{width:104px;height:104px;margin-bottom:10px;color:var(--logo);fill:var(--logo);transition:fill .4s, color .4s}
+.hex-etat.repos{fill:var(--repos);color:var(--repos-trait)}
 .etat-carte .btn{margin-top:14px}
 .jour{display:grid;gap:18px}
 .chiffres{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
@@ -168,8 +168,8 @@ svg{display:block}
 .ta-zone .chev{width:22px;height:22px;color:var(--encre-2)}
 .mini-carte{flex:none;width:64px;height:58px}
 .mc{fill:var(--surface-2);stroke:var(--surface);stroke-width:1.5}
-.mc-toi{fill:var(--miel);stroke:var(--logo-contour);stroke-width:2.2}
-.contribution{display:grid;gap:10px;background:var(--miel-doux);box-shadow:none}
+.mc-toi{fill:var(--encre);stroke:var(--encre);stroke-width:2.2}
+.contribution{display:grid;gap:10px;box-shadow:inset 0 0 0 1.5px var(--encre)}
 .ct-tete{display:flex;align-items:center;gap:12px}
 .ct-actions{display:flex;justify-content:flex-end;gap:6px;margin-top:2px}
 
@@ -204,7 +204,7 @@ svg{display:block}
 .toi-etiq{pointer-events:none}
 .toi-etiq rect{fill:var(--encre)}
 .toi-etiq text{fill:var(--fond);font:650 11px var(--texte)}
-.bulle{position:absolute;transform:translate(-50%, calc(-100% - 10px));padding:7px 10px;border-radius:12px;background:var(--surface);box-shadow:0 4px 16px rgba(0,0,0,.18);font-size:13px;line-height:1.25;white-space:nowrap;pointer-events:none}
+.bulle{position:absolute;transform:translate(-50%, calc(-100% - 10px));padding:7px 10px;border-radius:12px;background:var(--feuille);box-shadow:0 4px 16px rgba(0,0,0,.18);font-size:13px;line-height:1.25;white-space:nowrap;pointer-events:none}
 .bulle b{display:block;font-size:16px;font-weight:650}
 .legende{display:grid;gap:10px;padding:0 4px}
 .leg-degrade{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;font-size:13px;color:var(--encre-2);font-variant-numeric:tabular-nums}
@@ -214,7 +214,7 @@ svg{display:block}
 
 /* Soutenir */
 .don{display:grid;gap:12px;justify-items:center;text-align:center;padding:24px 18px 20px}
-.don .hex-don{width:64px;height:64px;color:var(--logo-contour);fill:var(--miel);margin-bottom:4px}
+.don .hex-don{width:64px;height:64px;color:var(--logo);fill:var(--logo);margin-bottom:4px}
 .don .segment{width:100%;margin-top:6px}
 .montants{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%}
 .montants button{min-height:48px;border:0;border-radius:16px;background:var(--surface-2);font-weight:650;font-size:16px;cursor:pointer;color:var(--encre)}
@@ -232,8 +232,7 @@ svg{display:block}
 .reglage .r-texte{flex:1;min-width:0;display:grid;gap:1px}
 .reglage b{font-weight:600;font-size:16px;line-height:1.3}
 .reglage > svg{width:22px;height:22px;flex:none;color:var(--encre-2)}
-.reglage.danger b{color:var(--corail)}
-.reglage.danger > svg{color:var(--corail)}
+.reglage.danger > svg{color:var(--encre)}
 .bloc-budget{display:grid;gap:12px;padding:16px}
 .bloc-budget .r-texte{display:grid;gap:1px}
 .bloc-budget b{font-weight:600;font-size:16px;line-height:1.3}
@@ -252,7 +251,7 @@ svg{display:block}
 
 /* Feuille Maquette, message, bords */
 .voile{position:absolute;inset:0;z-index:50;background:var(--voile)}
-.feuille{position:absolute;inset:auto 0 0;z-index:51;max-height:86%;overflow-y:auto;padding:10px 16px calc(var(--h-gestes) + 18px);border-radius:28px 28px 0 0;background:var(--surface);display:flex;flex-direction:column;gap:12px;scrollbar-width:none}
+.feuille{position:absolute;inset:auto 0 0;z-index:51;max-height:86%;overflow-y:auto;padding:10px 16px calc(var(--h-gestes) + 18px);border-radius:28px 28px 0 0;background:var(--feuille);display:flex;flex-direction:column;gap:12px;scrollbar-width:none}
 .feuille::-webkit-scrollbar{display:none}
 .poignee{width:36px;height:4px;border-radius:2px;background:var(--repos);margin:2px auto 0}
 .f-tete{display:flex;align-items:center;justify-content:space-between}
@@ -324,7 +323,7 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2.5px solid var
     </div>
     <div class="pied">
       <div class="pages" role="img" aria-label="Étape 1 sur 3"><i class="on"></i><i></i><i></i></div>
-      <button class="btn miel large" data-aller="promesse">Commencer</button>
+      <button class="btn plein large" data-aller="promesse">Commencer</button>
     </div>
   </section>
 
@@ -371,9 +370,9 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2.5px solid var
     </header>
     <div class="defile">
       <div class="carte contribution" id="contribution" hidden>
-        <div class="ct-tete"><span class="pastille miel"><svg><use href="#i-pluie"/></svg></span><p class="t-titre">Il pleut près de chez toi</p></div>
+        <div class="ct-tete"><span class="pastille fort"><svg><use href="#i-pluie"/></svg></span><p class="t-titre">Il pleut près de chez toi</p></div>
         <p class="t-petit">Pose ton téléphone dehors, à l’abri, une minute&#8239;?</p>
-        <div class="ct-actions"><button class="btn texte petit" data-contrib="non">Plus tard</button><button class="btn miel petit" data-contrib="oui">J’y vais</button></div>
+        <div class="ct-actions"><button class="btn texte petit" data-contrib="non">Plus tard</button><button class="btn plein petit" data-contrib="oui">J’y vais</button></div>
       </div>
       <div class="carte etat-carte">
         <svg class="hex-etat vit" id="hex-etat" viewBox="0 0 96 96" aria-hidden="true"><defs><clipPath id="ze-clip"><path d="M40.5 13.33Q48 9 55.5 13.33L74.27 24.17Q81.77 28.5 81.77 37.16L81.77 58.84Q81.77 67.5 74.27 71.83L55.5 82.67Q48 87 40.5 82.67L21.73 71.83Q14.23 67.5 14.23 58.84L14.23 37.16Q14.23 28.5 21.73 24.17Z"/></clipPath></defs><g clip-path="url(#ze-clip)"><g class="z-niveau"><path class="z-vague" d="M-45.5 55.5Q-30 45.5 -14.5 55.5T16.5 55.5T47.5 55.5T78.5 55.5T109.5 55.5T140.5 55.5T171.5 55.5V100H-45.5Z"/></g></g><path class="z-contour" pathLength="1" d="M40.5 12.83Q48 8.5 55.5 12.83L74.71 23.92Q82.21 28.25 82.21 36.91L82.21 59.09Q82.21 67.75 74.71 72.08L55.5 83.17Q48 87.5 40.5 83.17L21.29 72.08Q13.79 67.75 13.79 59.09L13.79 36.91Q13.79 28.25 21.29 23.92Z" fill="none" stroke="currentColor" stroke-width="6.4" stroke-linejoin="round"/></svg>
@@ -450,7 +449,7 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2.5px solid var
           <button role="radio" aria-checked="false" data-montant="10">10&nbsp;€</button>
           <button role="radio" aria-checked="false" data-montant="autre">Autre</button>
         </div>
-        <button class="btn miel large" id="b-don">Donner 5&nbsp;€</button>
+        <button class="btn plein large" id="b-don">Donner 5&nbsp;€</button>
       </div>
       <div class="carte partage">
         <span class="pastille"><svg><use href="#i-partager"/></svg></span>

@@ -44,8 +44,8 @@ tete = tete.replace('<meta name="claude:viewport-fit-sides" content="cover">\n',
 complet = ('<!doctype html>\n<html lang="fr">\n<head>\n<meta charset="utf-8">\n'
            '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
            '<meta name="color-scheme" content="light dark">\n'
-           '<meta name="theme-color" content="#f4f7fa" media="(prefers-color-scheme: light)">\n'
-           '<meta name="theme-color" content="#08121d" media="(prefers-color-scheme: dark)">\n'
+           '<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">\n'
+           '<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">\n'
            + tete + '\n<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}'
            '[hidden]{display:none!important}</style>\n</head>\n<body>\n' + corps.strip() + "\n</body>\n</html>\n")
 os.makedirs(os.path.dirname(COMPLET), exist_ok=True)

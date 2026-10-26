@@ -7,23 +7,17 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import symboles as sy  # noqa: E402
 from geo import f  # noqa: E402
 
-# ---------- Couleurs ----------
-NUIT = "#163e6c"     # la marque, l'icone, les actions
-MIEL = "#f6b73c"     # les mesures, le remplissage du logo, Soutenir
-PAPIER = "#f4f7fa"   # fond clair
-ENCRE = "#0e1b2a"    # texte
-ARDOISE = "#566477"  # texte secondaire
-BRUME = "#dce3ea"    # traits
-CIEL = "#9cc2f5"     # le bleu en mode sombre
-CIEL_CLAIR = "#dce7f5"
-CORAIL = "#b93a30"
-CORAIL_SOMBRE = "#ff8a7e"
-FOND_SOMBRE = "#08121d"
-SURFACE_SOMBRE = "#0f1d2c"
-TEXTE_SOMBRE = "#e8eff7"
-TEXTE2_SOMBRE = "#9aa9ba"
-TRAIT_SOMBRE = "#223244"
-BLANC = "#ffffff"
+# ---------- Couleurs : noir et blanc, la couleur seulement pour les mesures ----------
+NOIR = "#000000"         # le logo, le texte et les boutons en clair ; le fond en sombre
+BLANC = "#ffffff"        # le fond en clair ; le logo, le texte et les boutons en sombre
+GRIS = "#5c5c5c"         # texte doux en clair
+GRIS_CLAIR = "#a3a3a3"   # texte doux en sombre
+SURFACE_CLAIRE = "#f2f2f2"
+SURFACE_SOMBRE = "#141414"
+DOUX_CLAIR = "#e6e6e6"   # boutons doux en clair
+DOUX_SOMBRE = "#262626"  # boutons doux en sombre
+TRAIT_CLAIR = "#e3e3e3"
+TRAIT_SOMBRE = "#2a2a2a"
 
 # ---------- Le nom en contours ----------
 _NOM = None
@@ -84,11 +78,9 @@ def svg(corps, largeur, hauteur, marge=0.0, fond=None, titre="Sensor Maps"):
             f'width="{f(l)}" height="{f(h)}" role="img" aria-label="{titre}">{rect}{corps}</svg>\n')
 
 
-# ---------- Variantes de couleur du logo ----------
+# ---------- Variantes du logo : noir sur fond clair, blanc sur fond sombre ----------
 VARIANTES = {
-    "couleur": (NUIT, MIEL, NUIT),        # sur fond clair
-    "sombre": (BLANC, MIEL, BLANC),        # sur fond sombre
-    "noir": (ENCRE, ENCRE, ENCRE),         # une seule couleur
+    "noir": (NOIR, NOIR, NOIR),
     "blanc": (BLANC, BLANC, BLANC),
 }
 
@@ -141,8 +133,8 @@ def fichiers_android(dossier):
         os.makedirs(os.path.join(res, d), exist_ok=True)
     w = lambda chemin, txt: open(os.path.join(res, chemin), "w", encoding="utf-8").write(txt)
     w("drawable/ic_launcher_background.xml", _vd(108, 108,
-      f'  <path android:fillColor="{NUIT.upper()}" android:pathData="M0,0h108v108h-108z"/>\n'))
-    w("drawable/ic_launcher_foreground.xml", _vd(108, 108, _vd_symbole("#FFFFFF", MIEL.upper(), K_ADAPT, DEC_ADAPT, DEC_ADAPT)))
+      f'  <path android:fillColor="{NOIR.upper()}" android:pathData="M0,0h108v108h-108z"/>\n'))
+    w("drawable/ic_launcher_foreground.xml", _vd(108, 108, _vd_symbole("#FFFFFF", "#FFFFFF", K_ADAPT, DEC_ADAPT, DEC_ADAPT)))
     w("drawable/ic_launcher_monochrome.xml", _vd(108, 108, _vd_symbole("#FFFFFF", "#FFFFFF", K_ADAPT, DEC_ADAPT, DEC_ADAPT)))
     w("drawable/ic_stat_sensor_maps.xml", _vd(24, 96, _vd_symbole("#FFFFFF", "#FFFFFF", 1, 0, 0)))
     adaptive = ('<?xml version="1.0" encoding="utf-8"?>\n'
@@ -155,16 +147,15 @@ def fichiers_android(dossier):
     w("mipmap-anydpi-v26/ic_launcher_round.xml", adaptive)
     w("values/couleurs_sensor_maps.xml", (
         '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n'
-        f'    <color name="sm_nuit">{NUIT.upper()}</color>\n'
-        f'    <color name="sm_miel">{MIEL.upper()}</color>\n'
-        f'    <color name="sm_papier">{PAPIER.upper()}</color>\n'
-        f'    <color name="sm_encre">{ENCRE.upper()}</color>\n'
-        f'    <color name="sm_fond_sombre">{FOND_SOMBRE.upper()}</color>\n'
-        f'    <color name="ic_launcher_background">{NUIT.upper()}</color>\n'
+        f'    <color name="sm_noir">{NOIR.upper()}</color>\n'
+        f'    <color name="sm_blanc">{BLANC.upper()}</color>\n'
+        f'    <color name="sm_gris">{GRIS.upper()}</color>\n'
+        f'    <color name="sm_gris_clair">{GRIS_CLAIR.upper()}</color>\n'
+        f'    <color name="ic_launcher_background">{NOIR.upper()}</color>\n'
         '</resources>\n'))
 
 
-def svg_icone(taille, forme="carre", fond=NUIT, contour=BLANC, rempli=MIEL, k_rel=48 / 72):
+def svg_icone(taille, forme="carre", fond=NOIR, contour=BLANC, rempli=BLANC, k_rel=48 / 72):
     """Icone en SVG pour les PNG : 'carre' plein (Google Play), 'arrondi' ou 'rond' (anciens Android)."""
     s = taille
     if forme == "carre":
