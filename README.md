@@ -11,12 +11,15 @@ La carte : https://loscripts.github.io/sensor-maps/
 - `web/` : la carte (`carte.html`), la page « Sources et licences » (`sources.html`), et `index.html` qui ouvre la carte.
 - `collector/` : le programme de collecte en Python. Un fichier par source dans `collector/sources/`, et des tests dans `collector/tests/`.
 - `appli-test/` : l'appli Android du test décisif, le début de l'étape 2 (voir « Appli de test » plus bas).
+- `interface/` : l'identité de Sensor Maps (logo, couleurs, police, ton) et la maquette de l'appli (voir `interface/LISEZMOI.md`).
+- `appli/` : l'appli Sensor Maps. Pour l'instant, elle montre l'interface avec des chiffres pour l'exemple (voir `appli/LISEZMOI.md`). À installer depuis le téléphone : https://github.com/loSCripts/sensor-maps/releases/download/appli/sensor-maps.apk
 - `A-FAIRE.md` : ce qui reste à faire plus tard, pour ne rien oublier d'une conversation à l'autre.
 - `PASSATION-interface-appli.md` : le contexte à donner à une nouvelle conversation pour créer l'identité et l'interface de l'appli.
-- `.github/workflows/` : les trois tâches automatiques de GitHub.
+- `.github/workflows/` : les quatre tâches automatiques de GitHub.
   - `collecte.yml` : la collecte et la publication, toutes les 10 minutes. Elle évite aussi que GitHub coupe la collecte (voir plus bas).
   - `verifier.yml` : relance les tests à chaque modification du code.
   - `appli-test.yml` : fabrique l'appli de test, l'essaie sur un téléphone virtuel, puis la publie sur la page « Releases ».
+  - `appli.yml` : pareil pour l'appli Sensor Maps, publiée sous la version fixe « appli » : son lien d'installation ne change pas.
 
 ## Les sources
 

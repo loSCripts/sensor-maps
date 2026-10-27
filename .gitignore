@@ -6,3 +6,7 @@ appli-test/build/
 appli-test/.gradle/
 appli-test/.kotlin/
 appli-test/local.properties
+appli/build/
+appli/.gradle/
+appli/.kotlin/
+appli/local.properties

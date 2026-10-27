@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Écran de démarrage : le symbole noir sur fond blanc (288 dp, dans le cercle de 192 dp). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="288dp" android:height="288dp"
+    android:viewportWidth="288" android:viewportHeight="288">
+  <group android:translateX="67.04" android:translateY="67.04" android:scaleX="1.6036" android:scaleY="1.6036">
+    <group>
+      <clip-path android:pathData="M40.5 13.33Q48 9 55.5 13.33L74.27 24.17Q81.77 28.5 81.77 37.16L81.77 58.84Q81.77 67.5 74.27 71.83L55.5 82.67Q48 87 40.5 82.67L21.73 71.83Q14.23 67.5 14.23 58.84L14.23 37.16Q14.23 28.5 21.73 24.17Z"/>
+      <path android:fillColor="#000000" android:pathData="M-45.5 55.5Q-30 45.5 -14.5 55.5T16.5 55.5T47.5 55.5T78.5 55.5T109.5 55.5V100H-45.5Z"/>
+    </group>
+    <path android:fillColor="#00000000" android:strokeColor="#000000" android:strokeWidth="6.4"
+        android:strokeLineJoin="round" android:pathData="M40.5 12.83Q48 8.5 55.5 12.83L74.71 23.92Q82.21 28.25 82.21 36.91L82.21 59.09Q82.21 67.75 74.71 72.08L55.5 83.17Q48 87.5 40.5 83.17L21.29 72.08Q13.79 67.75 13.79 59.09L13.79 36.91Q13.79 28.25 21.29 23.92Z"/>
+  </group>
+</vector>

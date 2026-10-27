@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- L'interface est dessinée par la page ; le fond suit le thème pour éviter tout flash -->
+    <style name="Theme.SensorMaps" parent="android:Theme.DeviceDefault.Light.NoActionBar">
+        <item name="android:windowBackground">@color/sm_fond</item>
+    </style>
+
+    <!-- Écran de démarrage d'Android 12 et plus (et des versions d'avant, grâce à la bibliothèque) -->
+    <style name="Theme.SensorMaps.Demarrage" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/sm_fond</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/demarrage_symbole</item>
+        <item name="postSplashScreenTheme">@style/Theme.SensorMaps</item>
+    </style>
+</resources>

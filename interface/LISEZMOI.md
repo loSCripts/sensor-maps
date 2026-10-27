@@ -3,6 +3,6 @@
 - `identite/index.html` : l'identité (histoire, logo, Android, couleurs, police, ton, mouvement).
 - `identite/logo/` : le logo en SVG.
 - `identite/android/` : les icônes prêtes pour Android et Google Play.
-- `maquette/index.html` : la maquette de l'appli, valeurs simulées.
+- `maquette/index.html` : la maquette de l'appli, valeurs simulées. La même interface est dans l'appli Android (`appli/src/main/assets/`), avec la police incluse.
 - `identite/pistes/` : les trois pistes de logo du départ (la piste 2, Zone, a été choisie).
 - `outils/` : les scripts qui fabriquent tout ça.
